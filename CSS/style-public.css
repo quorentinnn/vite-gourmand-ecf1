@@ -1,0 +1,46 @@
+.container-avis {
+    
+    padding: 40px 20px;
+    border-radius: 10px;
+    margin-top: 5px;
+}
+
+.container-avis .row {
+    display: flex;
+    gap: 70px;
+    justify-content: center;
+    
+    
+}
+
+.container-avis .col-md-4 {
+    flex: 1 1 0;
+    min-width: 250px;
+    max-width: 350px;
+}
+
+.container-avis .card {
+    height: 100%;
+    border: 1px solid #000000;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #5e5353;
+}
+
+.container-avis .text-center {
+    text-align: center;
+}
+
+.container-avis .text-muted {
+    color: #6c757d;
+}
+
+.container-avis .mb-4 {
+    margin-bottom: 1.5rem;
+}
+
+.container-avis .mb-2 {
+    margin-bottom: 0.5rem;
+}
+
+--------------------------------------------------------------------

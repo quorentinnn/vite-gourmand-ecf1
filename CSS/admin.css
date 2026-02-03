@@ -1,0 +1,78 @@
+/*-----------------------------------------------------------*/
+/* PAGE GESTION MENUS ADMIN - RESPONSIVE */
+/*-----------------------------------------------------------*/
+
+/* Style de base pour la page admin */
+.container.mt-5 {
+    padding: 20px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Responsive tablettes et mobiles */
+@media (max-width: 768px) {
+    .container.mt-5 {
+        padding: 10px;
+    }
+    
+    h1 {
+        font-size: 1.5rem;
+    }
+    
+    h2 {
+        font-size: 1.2rem;
+    }
+    
+    /* Rendre les boutons plus petits */
+    .btn-success.mb-3 {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+    
+    /* Adapter le tableau */
+    .table {
+        font-size: 0.85rem;
+    }
+    
+    .table th,
+    .table td {
+        padding: 8px 4px;
+    }
+    
+    /* Réduire la taille des images */
+    .table img {
+        width: 50px !important;
+        height: 40px !important;
+    }
+    
+    /* Empiler les boutons d'action */
+    .table .btn-sm {
+        display: block;
+        width: 100%;
+        margin-bottom: 5px;
+        font-size: 0.75rem;
+    }
+}
+
+/* Responsive mobile petit écran */
+@media (max-width: 480px) {
+    /* Cacher certaines colonnes moins importantes */
+    .table thead th:nth-child(1),
+    .table tbody td:nth-child(1) {
+        display: none; /* Cache l'ID */
+    }
+    
+    .table img {
+        width: 40px !important;
+        height: 30px !important;
+    }
+    
+    .table th,
+    .table td {
+        padding: 5px 2px;
+        font-size: 0.75rem;
+    }
+}
