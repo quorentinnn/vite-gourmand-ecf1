@@ -1,14 +1,16 @@
 <?php
 
 // Paramètres de connexion
-$host = 'localhost';
-$dbname = 'ecf_gourmand';
-$username = 'root';
-$password = '';  // Vide par défaut sur XAMPP
+// En local (XAMPP) ou en production (Railway)
+$host = getenv('MYSQLHOST') ?: 'localhost';
+$dbname = getenv('MYSQLDATABASE') ?: 'ecf_gourmand';
+$username = getenv('MYSQLUSER') ?: 'root';
+$password = getenv('MYSQLPASSWORD') ?: '';
+$port = getenv('MYSQLPORT') ?: '3306';
 
 try {
     // Création de la connexion PDO
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
+    $pdo = new PDO("mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4", $username, $password);
     
     // Configuration PDO pour afficher les erreurs
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

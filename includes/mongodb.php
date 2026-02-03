@@ -2,7 +2,9 @@
 // Connexion à MongoDB
 function getMongoClient() {
     try {
-        return new MongoDB\Driver\Manager("mongodb://localhost:27017");
+        // Récupérer l'URL MongoDB de Railway ou utiliser localhost en local
+$mongoUrl = getenv('MONGO_URL') ?: 'mongodb://localhost:27017';
+return new MongoDB\Driver\Manager($mongoUrl);
     } catch (Exception $e) {
         die("Erreur MongoDB : " . $e->getMessage());
     }
