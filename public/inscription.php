@@ -23,8 +23,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             // Insérer le nouvel utilisateur dans la BDD
             $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-            $insertSql = "INSERT INTO utilisateurs (nom, prenom, email, mot_de_passe, role) 
-                          VALUES (:nom, :prenom, :email, :mot_de_passe, 'utilisateur')";
+            $insertSql = "INSERT INTO utilisateurs (nom, prenom, email, mot_de_passe, gsm, adresse, ville, code_postal, role)
+                          VALUES (:nom, :prenom, :email, :mot_de_passe, '', '', '', '', 'utilisateur')";
             $insertStmt = $pdo->prepare($insertSql);
             $insertStmt->execute([
                 'nom' => $nom,
