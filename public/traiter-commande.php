@@ -53,28 +53,32 @@ $prix_total = $prix_du_menu * $quantite;
 $utilisateur_id = $_SESSION['user_id'];
 
 // Créer la requête SQL pour insérer une commande
-$requete_insertion = "INSERT INTO commandes (utilisateur_id, menu_id, nb_personnes, date_livraison, heure_livraison, adresse_livraison, ville_livraison, code_postal_livraison, prix_menu, prix_total, statut)
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+$prix_livraison = 5.00;
+$reduction = 0.00;
+
+$requete_insertion = "INSERT INTO commandes (utilisateur_id, menu_id, nb_personnes, date_livraison, heure_livraison, adresse_livraison, ville_livraison, code_postal_livraison, prix_menu, prix_livraison, reduction, prix_total, statut)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 // Préparer la requête
 $preparation = $pdo->prepare($requete_insertion);
 
 // Définir le statut de la commande
 $statut_commande = 'en_attente';
 
-
 // Exécuter la requête avec les valeurs dans l'ordre
 $preparation->execute([
-    $utilisateur_id,           // 1er ? → utilisateur_id
-    $menu_id,                  // 2e ? → menu_id
-    $quantite,                 // 3e ? → nb_personnes
-    $date_livraison,           // 4e ? → date_livraison
-    $heure_livraison,          // 5e ? → heure_livraison
-    $adresse_livraison,        // 6e ? → adresse_livraison
-    $ville_livraison,          // 7e ? → ville_livraison
-    $code_postal_livraison,    // 8e ? → code_postal_livraison
-    $prix_du_menu,             // 9e ? → prix_menu
-    $prix_total,               // 10e ? → prix_total
-    $statut_commande,          // 11e ? → statut
+    $utilisateur_id,
+    $menu_id,
+    $quantite,
+    $date_livraison,
+    $heure_livraison,
+    $adresse_livraison,
+    $ville_livraison,
+    $code_postal_livraison,
+    $prix_du_menu,
+    $prix_livraison,
+    $reduction,
+    $prix_total,
+    $statut_commande,
 ]);
 // Récupérer le titre du menu pour MongoDB
 $requete_menu = "SELECT titre FROM menus WHERE id = :menu_id";
