@@ -1,4 +1,4 @@
-<?php include '../includes/header.php';
+<?php
 require_once '../includes/db.php';
 $error = '';
 // Si le formulaire est soumis
@@ -7,7 +7,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $prenom = $_POST['prenom'] ?? '';
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
-    
+
     // Vérifier que les champs ne sont pas vides
     if(empty($nom) || empty($prenom) || empty($email) || empty($password)) {
         $error = "Veuillez remplir tous les champs";
@@ -17,7 +17,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = $pdo->prepare($sql);
         $stmt->execute(['email' => $email]);
         $existingUser = $stmt->fetch();
-        
+
         if($existingUser) {
             $error = "Cet email est déjà utilisé";
         } else {
@@ -32,7 +32,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'email' => $email,
                 'mot_de_passe' => $hashedPassword
             ]);
-            
+
             // Rediriger vers la page de connexion après inscription réussie
             header('Location: connexion.php');
             exit;
@@ -40,7 +40,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-
+include '../includes/header.php';
 ?>
 
 <?php if($error): ?>
