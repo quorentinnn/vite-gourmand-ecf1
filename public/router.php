@@ -33,6 +33,13 @@ foreach ($staticDirs as $dir) {
     }
 }
 
+// Redirection /public/xxx → /xxx (compatibilité admin/employe redirects)
+if (strpos($uri, '/public/') === 0) {
+    $newUri = substr($uri, 7); // enlève "/public"
+    header('Location: ' . $newUri);
+    return true;
+}
+
 // Pages PHP admin/ et employe/ (en dehors de public/)
 $phpDirs = ['admin', 'employe'];
 
