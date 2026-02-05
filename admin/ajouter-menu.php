@@ -68,9 +68,9 @@ if(isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
     $extension = pathinfo($nom_fichier, PATHINFO_EXTENSION);
     $nom_unique = uniqid() . '.' . $extension;
     
-    $dossier_upload = '../uploads/';
+    $dossier_upload = __DIR__ . '/../uploads/';
     $chemin_final = $dossier_upload . $nom_unique;
-    
+
     if(move_uploaded_file($fichier_tmp, $chemin_final)) {
         $nom_image = $nom_unique;
     }

@@ -80,9 +80,9 @@ if(isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
     $extension = pathinfo($nom_fichier, PATHINFO_EXTENSION);
     $nom_unique = uniqid() . '.' . $extension;
     
-    $dossier_upload = '../uploads/';
+    $dossier_upload = __DIR__ . '/../uploads/';
     $chemin_final = $dossier_upload . $nom_unique;
-    
+
     if(move_uploaded_file($fichier_tmp, $chemin_final)) {
         // Supprimer l'ancienne image si elle existe
         if($menu['image'] && file_exists($dossier_upload . $menu['image'])) {
@@ -230,7 +230,7 @@ exit;
     <!-- Champ pour uploader une nouvelle image -->
 <div class="mb-3">
     <label>Image actuelle</label><br>
-    <?php if($menu['image'] && file_exists("../uploads/" . $menu['image'])): ?>
+    <?php if($menu['image'] && file_exists(__DIR__ . "/../uploads/" . $menu['image'])): ?>
         <img src="../uploads/<?php echo htmlspecialchars($menu['image']); ?>" style="width: 150px; height: 150px; object-fit: cover;" alt="Image actuelle">
     <?php else: ?>
         <p>Aucune image</p>
