@@ -60,6 +60,7 @@ $mes_commandes = $preparation->fetchAll();
         
         <div><h2 class="commande-text">Mes Commandes</h2></div>
         
+        <div class="table-responsive">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -145,7 +146,8 @@ $mes_commandes = $preparation->fetchAll();
                 <?php endforeach; ?>
             </tbody>
         </table>
-        
+        </div>
+
         <a href="menus.php" class="btn btn-primary mt-3">Commander à nouveau</a>
     </div>
 
