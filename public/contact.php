@@ -10,7 +10,7 @@
     <section class="contact-content">
         <div class="container3">
             <div class="contact-layout">
-                
+            
                 <!-- FORMULAIRE GAUCHE -->
                 <div class="contact-form-container">
                     <h2>Envoyez-nous un message</h2>
