@@ -86,16 +86,20 @@ $prep_menu = $pdo->prepare($requete_menu);
 $prep_menu->execute(['menu_id' => $menu_id]);
 $menu = $prep_menu->fetch();
 
-// Enregistrer les statistiques dans MongoDB
-if($menu) {
-    require_once '../includes/mongodb.php';
-    enregistrerStatCommande(
-        $menu_id,
-        $menu['titre'],
-        $prix_total,
-        $quantite,  // nombre de personnes
-        $date_livraison
-    );
+// Enregistrer les statistiques dans MongoDB (optionnel)
+if($menu && class_exists('MongoDB\Driver\Manager')) {
+    try {
+        require_once '../includes/mongodb.php';
+        enregistrerStatCommande(
+            $menu_id,
+            $menu['titre'],
+            $prix_total,
+            $quantite,
+            $date_livraison
+        );
+    } catch (Exception $e) {
+        // MongoDB non disponible, on continue sans
+    }
 }
 
 ?>
