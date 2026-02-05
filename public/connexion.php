@@ -1,5 +1,4 @@
-<?php include '../includes/header.php'; 
-
+<?php
 if (session_status() === PHP_SESSION_NONE) { session_start(); }
 require_once '../includes/db.php';
 
@@ -9,7 +8,7 @@ $error = '';
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
-    
+
     // Vérifier que les champs ne sont pas vides
     if(empty($email) || empty($password)) {
         $error = "Veuillez remplir tous les champs";
@@ -19,7 +18,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = $pdo->prepare($sql);
         $stmt->execute(['email' => $email]);
         $user = $stmt->fetch();
-        
+
         // Vérifier si l'utilisateur existe et le mot de passe est correct
         if($user && password_verify($password, $user['mot_de_passe'])) {
             // Connexion réussie ! Créer la session
@@ -27,7 +26,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['user_nom'] = $user['nom'];
             $_SESSION['user_prenom'] = $user['prenom'];
             $_SESSION['user_role'] = $user['role'];
-            
+
             // Rediriger selon le rôle
             if($user['role'] == 'admin') {
                 header('Location: ../admin/index.php');
@@ -42,6 +41,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 }
+
+include '../includes/header.php';
 ?>
 
 <?php if($error): ?>
@@ -54,7 +55,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         <h1 class="connexion-title">Connexion</h1>
         <p class="connexion-subtitle">Bienvenue de retour ! Veuillez vous connecter pour accéder à votre compte.</p>
     </section>
-    
+
 
     <section class="connexion-form-section">
         <div class="container4">

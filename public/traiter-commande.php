@@ -2,12 +2,14 @@
 
 if (session_status() === PHP_SESSION_NONE) { session_start(); }
 require_once '../includes/db.php';
-require_once '../includes/header.php';
+
 // Vérifier si l'utilisateur est connecté
 if(!isset($_SESSION['user_id'])) {
     header('Location: connexion.php');
     exit;
 }
+
+require_once '../includes/header.php';
 // recuperer donnees du formulaire de commande
 $menu_id = $_POST['menu_id'];
 $quantite = $_POST['quantite'];
