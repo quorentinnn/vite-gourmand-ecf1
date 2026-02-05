@@ -41,6 +41,7 @@ $commandes = $preparation->fetchAll();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des Commandes employé</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../CSS/admin.css?v=<?= time() ?>">
 </head>
 <body>
     <?php require_once '../includes/header.php'; ?>
@@ -50,6 +51,7 @@ $commandes = $preparation->fetchAll();
         
         <h2>Liste de toutes les commandes</h2>
         
+        <div class="table-responsive">
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
@@ -115,6 +117,7 @@ $commandes = $preparation->fetchAll();
                     
                     <!-- Actions -->
                     <td>
+                        <div class="btn-action-group">
                         <!-- Si statut = en_attente -->
                         <?php if($commande['statut'] == 'en_attente'): ?>
                             <a href="modifier-commande.php?id=<?php echo $commande['id']; ?>&action=accepter" class="btn btn-success btn-sm">
@@ -124,37 +127,39 @@ $commandes = $preparation->fetchAll();
                                 Refuser
                             </a>
                         <?php endif; ?>
-                        
+
                         <!-- Si statut = acceptee -->
                         <?php if($commande['statut'] == 'acceptee'): ?>
                             <a href="modifier-commande.php?id=<?php echo $commande['id']; ?>&action=preparer" class="btn btn-warning btn-sm">
                                 Préparer
                             </a>
                         <?php endif; ?>
-                        
+
                         <!-- Si statut = en_preparation -->
                         <?php if($commande['statut'] == 'en_preparation'): ?>
                             <a href="modifier-commande.php?id=<?php echo $commande['id']; ?>&action=prete" class="btn btn-info btn-sm">
                                 Prête pour livraison
                             </a>
                         <?php endif; ?>
-                        
+
                         <!-- Si statut = en_livraison -->
                         <?php if($commande['statut'] == 'en_livraison'): ?>
                             <a href="modifier-commande.php?id=<?php echo $commande['id']; ?>&action=livrer" class="btn btn-primary btn-sm">
                                 Livrer
                             </a>
                         <?php endif; ?>
-                        
+
                         <!-- Si statut = terminée ou livrée -->
                         <?php if($commande['statut'] == 'terminee' || $commande['statut'] == 'livree' || $commande['statut'] == 'attente_retour_materiel'): ?>
                             <span class="text-muted">Terminée</span>
                         <?php endif; ?>
+                        </div>
                     </td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
+        </div>
     </div>
 
     <?php require_once '../includes/footer.php'; ?>

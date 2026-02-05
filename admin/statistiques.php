@@ -63,6 +63,7 @@ $data_ca = json_encode(array_values($ca_par_menu));
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Statistiques - Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../CSS/admin.css?v=<?= time() ?>">
 </head>
 <body>
     <?php require_once '../includes/header.php'; ?>
@@ -115,7 +116,7 @@ $data_ca = json_encode(array_values($ca_par_menu));
                 <h3>Nombre de commandes par menu</h3>
             </div>
             <div class="card-body">
-                <canvas id="graphiqueCommandes" width="800" height="400" style="display: block; width: 100% !important; height: 400px !important;"></canvas>
+                <div class="chart-container"><canvas id="graphiqueCommandes"></canvas></div>
             </div>
         </div>
 
@@ -125,7 +126,7 @@ $data_ca = json_encode(array_values($ca_par_menu));
                 <h3>Chiffre d'affaires par menu</h3>
             </div>
             <div class="card-body">
-                <canvas id="graphiqueCA" style="max-height: 400px;"></canvas>
+                <div class="chart-container"><canvas id="graphiqueCA"></canvas></div>
             </div>
         </div>
 
@@ -135,6 +136,7 @@ $data_ca = json_encode(array_values($ca_par_menu));
                 <h3>Détails par menu</h3>
             </div>
             <div class="card-body">
+                <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -159,6 +161,7 @@ $data_ca = json_encode(array_values($ca_par_menu));
                         <?php endif; ?>
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
     </div>

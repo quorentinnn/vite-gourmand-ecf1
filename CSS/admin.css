@@ -12,67 +12,201 @@
     -webkit-overflow-scrolling: touch;
 }
 
-/* Responsive tablettes et mobiles */
+/*-----------------------------------------------------------*/
+/* DASHBOARD ADMIN & EMPLOYE                                 */
+/*-----------------------------------------------------------*/
+
+.admin-dashboard,
+.employe-dashboard {
+    background-color: #FEF5F0;
+    min-height: calc(100vh - 200px);
+    padding: 40px 0;
+}
+
+.dashboard-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+
+.dashboard-card h1 {
+    color: #8B1538;
+    margin-bottom: 10px;
+}
+
+.dashboard-welcome {
+    font-size: 1.2em;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.dashboard-actions .btn-admin {
+    background-color: #8B1538;
+    color: #ffffff;
+    border: none;
+    transition: background-color 0.3s;
+    font-size: 0.95rem;
+}
+
+.dashboard-actions .btn-admin:hover {
+    background-color: #6d1029;
+    color: #ffffff;
+}
+
+.dashboard-actions .btn-logout {
+    background-color: #D4AF37;
+    color: #8B1538;
+    border: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.dashboard-actions .btn-logout:hover {
+    background-color: #c49d2e;
+    color: #8B1538;
+}
+
+/*-----------------------------------------------------------*/
+/* FORMULAIRES INLINE (allergenes, regimes, themes)          */
+/*-----------------------------------------------------------*/
+
+.inline-edit-form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.inline-edit-form .form-control {
+    flex: 1;
+    min-width: 120px;
+    max-width: 300px;
+}
+
+/*-----------------------------------------------------------*/
+/* GRAPHIQUES RESPONSIVES                                    */
+/*-----------------------------------------------------------*/
+
+.chart-container {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+}
+
+/*-----------------------------------------------------------*/
+/* BOUTONS D'ACTION COMMANDES                                */
+/*-----------------------------------------------------------*/
+
+.btn-action-group {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+/*-----------------------------------------------------------*/
+/* RESPONSIVE - TABLETTES (max-width: 768px)                 */
+/*-----------------------------------------------------------*/
+
 @media (max-width: 768px) {
     .container.mt-5 {
         padding: 10px;
     }
-    
+
     h1 {
         font-size: 1.5rem;
     }
-    
+
     h2 {
         font-size: 1.2rem;
     }
-    
-    /* Rendre les boutons plus petits */
+
     .btn-success.mb-3 {
         width: 100%;
         margin-bottom: 15px;
     }
-    
-    /* Adapter le tableau */
+
     .table {
         font-size: 0.85rem;
     }
-    
+
     .table th,
     .table td {
         padding: 8px 4px;
     }
-    
-    /* Réduire la taille des images */
+
     .table img {
         width: 50px !important;
         height: 40px !important;
     }
-    
-    /* Empiler les boutons d'action */
+
     .table .btn-sm {
         display: block;
         width: 100%;
         margin-bottom: 5px;
         font-size: 0.75rem;
     }
+
+    /* Dashboard */
+    .dashboard-card {
+        padding: 20px 15px;
+    }
+
+    .dashboard-card h1 {
+        font-size: 1.5rem;
+    }
+
+    .dashboard-welcome {
+        font-size: 1rem;
+    }
+
+    /* Inline edit forms: stack vertically */
+    .inline-edit-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .inline-edit-form .form-control {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    /* Action buttons stack */
+    .btn-action-group {
+        flex-direction: column;
+    }
+
+    .btn-action-group .btn {
+        width: 100%;
+    }
 }
 
-/* Responsive mobile petit écran */
+/*-----------------------------------------------------------*/
+/* RESPONSIVE - PETIT MOBILE (max-width: 480px)              */
+/*-----------------------------------------------------------*/
+
 @media (max-width: 480px) {
-    /* Cacher certaines colonnes moins importantes */
     .table thead th:nth-child(1),
     .table tbody td:nth-child(1) {
-        display: none; /* Cache l'ID */
+        display: none;
     }
-    
+
     .table img {
         width: 40px !important;
         height: 30px !important;
     }
-    
+
     .table th,
     .table td {
         padding: 5px 2px;
         font-size: 0.75rem;
+    }
+
+    .dashboard-card {
+        padding: 15px 10px;
+    }
+
+    .dashboard-card h1 {
+        font-size: 1.3rem;
     }
 }

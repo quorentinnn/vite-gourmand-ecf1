@@ -96,6 +96,7 @@ $employes = $preparation_employes->fetchAll();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gérer les Employés</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../CSS/admin.css?v=<?= time() ?>">
 </head>
 <body>
     <?php require_once '../includes/header.php'; ?>
@@ -145,6 +146,7 @@ $employes = $preparation_employes->fetchAll();
                 <h3>Liste des employés</h3>
             </div>
             <div class="card-body">
+                <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -183,6 +185,7 @@ $employes = $preparation_employes->fetchAll();
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
     </div>

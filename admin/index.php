@@ -1,8 +1,6 @@
-<?php 
+<?php
 if (session_status() === PHP_SESSION_NONE) { session_start(); }
 require_once '../includes/db.php';
-
-
 
 // Vérifier si l'administrateur est connecté
 if(!isset($_SESSION['user_id'])) {
@@ -16,93 +14,62 @@ if($_SESSION['user_role'] != 'admin') {
     exit;
 }
 
-
 // Récupérer les informations de l'administrateur
 $user_nom = $_SESSION['user_nom'];
 $user_prenom = $_SESSION['user_prenom'];
 ?>
-
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Administrateur</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        h1 {
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .welcome {
-            font-size: 1.2em;
-            color: #666;
-            margin-bottom: 30px;
-        }
-
-        .logout-link {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 15px;
-            background-color: #C41E3A;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-
-        .logout-link:hover {
-            background-color: #a0172e;
-        }
-        .btn {
-            display: inline-block;
-            margin: 10px 10px 0 0;
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-        .btn:hover {
-            background-color: #0056b3;
-        }
-        
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../CSS/styles.css?v=<?= time() ?>">
+    <link rel="stylesheet" href="../CSS/admin.css?v=<?= time() ?>">
 </head>
 <body>
-    <div class="container">
-        <h1>Dashboard Administrateur</h1>
-        <p class="welcome">Bienvenue <?php echo htmlspecialchars($user_prenom . ' ' . $user_nom); ?> !</p>
-        <a href="logout.php" class="logout-link">Se déconnecter</a>
-        <a href="ajouter-menu.php" class="btn btn-primary">Ajouter un menu</a>
-        <a href="gestion-menus.php" class="btn btn-primary">Gérer les menus</a>
-        <a href="gestion-plats.php" class="btn btn-primary">Gérer les plats</a>
-        <a href="gestion-regimes.php" class="btn btn-primary">Gérer les régimes</a>
-        <a href="gestion-allergenes.php" class="btn btn-primary">Gérer les allergènes</a>
-        <a href="gestion-themes.php" class="btn btn-primary">Gérer les thèmes</a>
-        <a href="gerer-employes.php" class="btn btn-primary">Gérer les employés</a>
-        <a href="statistiques.php" class="btn btn-primary">Voir les statistiques</a>
+    <?php require_once '../includes/header.php'; ?>
+
+    <div class="admin-dashboard">
+        <div class="container py-4">
+            <div class="dashboard-card">
+                <h1>Dashboard Administrateur</h1>
+                <p class="dashboard-welcome">Bienvenue <?php echo htmlspecialchars($user_prenom . ' ' . $user_nom); ?> !</p>
+
+                <div class="dashboard-actions">
+                    <div class="row g-3">
+                        <div class="col-sm-6 col-md-4 col-lg-3">
+                            <a href="ajouter-menu.php" class="btn btn-admin d-block py-3">Ajouter un menu</a>
+                        </div>
+                        <div class="col-sm-6 col-md-4 col-lg-3">
+                            <a href="gestion-menus.php" class="btn btn-admin d-block py-3">Gérer les menus</a>
+                        </div>
+                        <div class="col-sm-6 col-md-4 col-lg-3">
+                            <a href="gestion-plats.php" class="btn btn-admin d-block py-3">Gérer les plats</a>
+                        </div>
+                        <div class="col-sm-6 col-md-4 col-lg-3">
+                            <a href="gestion-regimes.php" class="btn btn-admin d-block py-3">Gérer les régimes</a>
+                        </div>
+                        <div class="col-sm-6 col-md-4 col-lg-3">
+                            <a href="gestion-allergenes.php" class="btn btn-admin d-block py-3">Gérer les allergènes</a>
+                        </div>
+                        <div class="col-sm-6 col-md-4 col-lg-3">
+                            <a href="gestion-themes.php" class="btn btn-admin d-block py-3">Gérer les thèmes</a>
+                        </div>
+                        <div class="col-sm-6 col-md-4 col-lg-3">
+                            <a href="gerer-employes.php" class="btn btn-admin d-block py-3">Gérer les employés</a>
+                        </div>
+                        <div class="col-sm-6 col-md-4 col-lg-3">
+                            <a href="statistiques.php" class="btn btn-admin d-block py-3">Voir les statistiques</a>
+                        </div>
+                        <div class="col-sm-6 col-md-4 col-lg-3">
+                            <a href="logout.php" class="btn btn-logout d-block py-3">Se déconnecter</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</body>
-</html>
+
+    <?php require_once '../includes/footer.php'; ?>

@@ -18,70 +18,37 @@ if($_SESSION['user_role'] != 'employe') {
 $user_nom = $_SESSION['user_nom'];
 $user_prenom = $_SESSION['user_prenom'];
 ?>
-
-
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Employé</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        h1 {
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .welcome {
-            font-size: 1.2em;
-            color: #666;
-            margin-bottom: 30px;
-        }
-
-        .logout-link {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #dc3545;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-
-        .logout-link:hover {
-            background-color: #c82333;
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../CSS/styles.css?v=<?= time() ?>">
+    <link rel="stylesheet" href="../CSS/admin.css?v=<?= time() ?>">
 </head>
 <body>
-    <div class="container">
-        <h1>Dashboard Employé</h1>
-        <p>Bienvenue <?php echo htmlspecialchars($user_prenom . ' ' . $user_nom); ?> !</p>
+    <?php require_once '../includes/header.php'; ?>
 
-        <a href="logout.php" class="logout-link">Se déconnecter</a>
-        <a href="commandes.php" class="btn btn-primary">Voir les commandes</a>
+    <div class="employe-dashboard">
+        <div class="container py-4">
+            <div class="dashboard-card">
+                <h1>Dashboard Employé</h1>
+                <p class="dashboard-welcome">Bienvenue <?php echo htmlspecialchars($user_prenom . ' ' . $user_nom); ?> !</p>
+
+                <div class="dashboard-actions">
+                    <div class="row g-3">
+                        <div class="col-sm-6 col-md-4">
+                            <a href="commandes.php" class="btn btn-admin d-block py-3">Voir les commandes</a>
+                        </div>
+                        <div class="col-sm-6 col-md-4">
+                            <a href="logout.php" class="btn btn-logout d-block py-3">Se déconnecter</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</body>
-</html>
+
+    <?php require_once '../includes/footer.php'; ?>

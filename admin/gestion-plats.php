@@ -122,6 +122,7 @@ foreach($plats as $plat) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des Plats</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../CSS/admin.css?v=<?= time() ?>">
 </head>
 <body>
     <?php require_once '../includes/header.php'; ?>
@@ -186,6 +187,7 @@ foreach($plats as $plat) {
                     <h3><?php echo $label; ?></h3>
                 </div>
                 <div class="card-body">
+                    <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -266,6 +268,7 @@ foreach($plats as $plat) {
                             <?php endforeach; ?>
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         <?php 
