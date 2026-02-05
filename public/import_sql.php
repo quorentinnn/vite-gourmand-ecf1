@@ -10,8 +10,7 @@ if ($sql === false) {
 }
 
 // Connexion à la base
-require_once __DIR__ . '/includes/db.php';
-
+require_once __DIR__ . '/../includes/db.php';
 try {
     // Exécution du SQL
     $pdo->exec($sql);
