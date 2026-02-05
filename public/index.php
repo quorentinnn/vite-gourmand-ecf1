@@ -1,6 +1,5 @@
 <?php include '../includes/header.php';
 // Connexion à la base de données
-session_start();
 require_once '../includes/db.php';
 $requete_avis = "SELECT avis.note, 
                         avis.commentaire, 

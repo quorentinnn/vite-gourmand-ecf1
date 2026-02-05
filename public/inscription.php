@@ -1,5 +1,4 @@
-<?php include '../includes/header.php'; 
-session_start();
+<?php include '../includes/header.php';
 require_once '../includes/db.php';
 $error = '';
 // Si le formulaire est soumis
