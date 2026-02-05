@@ -2,11 +2,11 @@
 
 // Paramètres de connexion
 // En local (XAMPP) ou en production (Railway)
-$host = getenv('MYSQLHOST') ?: 'localhost';
-$dbname = getenv('MYSQLDATABASE') ?: 'ecf_gourmand';
-$username = getenv('MYSQLUSER') ?: 'root';
-$password = getenv('MYSQLPASSWORD') ?: '';
-$port = getenv('MYSQLPORT') ?: '3306';
+$host = getenv('MYSQL_HOST') ?: 'localhost';
+$dbname = getenv('MYSQL_DATABASE') ?: 'ecf_gourmand';
+$username = getenv('MYSQL_USER') ?: 'root';
+$password = getenv('MYSQL_PASSWORD') ?: '';
+$port = getenv('MYSQL_PORT') ?: '3306';
 
 try {
     // Création de la connexion PDO
