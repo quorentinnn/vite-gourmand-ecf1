@@ -1,13 +1,13 @@
 <?php
 // Router pour le serveur PHP intégré (Railway)
-// Sert les fichiers statiques (CSS, JS, images) depuis le dossier parent
+// Sert les fichiers statiques et les pages admin/employe depuis le dossier parent
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 // Dossiers statiques autorisés (en dehors de public/)
-$allowedDirs = ['CSS', 'JS', 'images'];
+$staticDirs = ['CSS', 'JS', 'images'];
 
-foreach ($allowedDirs as $dir) {
+foreach ($staticDirs as $dir) {
     if (strpos($uri, '/' . $dir . '/') === 0) {
         $file = dirname(__DIR__) . $uri;
         if (file_exists($file) && is_file($file)) {
@@ -30,6 +30,30 @@ foreach ($allowedDirs as $dir) {
             readfile($file);
             return true;
         }
+    }
+}
+
+// Pages PHP admin/ et employe/ (en dehors de public/)
+$phpDirs = ['admin', 'employe'];
+
+foreach ($phpDirs as $dir) {
+    if (strpos($uri, '/' . $dir) === 0) {
+        $file = dirname(__DIR__) . $uri;
+
+        // /admin ou /admin/ → /admin/index.php
+        if (is_dir($file)) {
+            $file = rtrim($file, '/') . '/index.php';
+        }
+
+        if (file_exists($file) && is_file($file)) {
+            chdir(dirname($file));
+            include $file;
+            return true;
+        }
+
+        http_response_code(404);
+        echo "Page non trouvée";
+        return true;
     }
 }
 
