@@ -1,6 +1,6 @@
 <?php
 // Démarrer la session
-session_start();
+if (session_status() === PHP_SESSION_NONE) { session_start(); }
 require_once '../includes/messages.php';
 
 // Vérifier si l'utilisateur est connecté
