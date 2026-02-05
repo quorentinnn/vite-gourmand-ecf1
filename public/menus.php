@@ -185,7 +185,7 @@ $menus = $stmt->fetchAll();
                  <?php foreach ($menus as $menu) : ?>
                 <div class="menu-card">
                     <div class="menu-image">
-                <?php if($menu['image'] && file_exists("../uploads/" . $menu['image'])): ?>
+                <?php if($menu['image'] && file_exists(dirname(__DIR__) . "/uploads/" . $menu['image'])): ?>
                  <img src="../uploads/<?php echo htmlspecialchars($menu['image']); ?>" alt="<?php echo htmlspecialchars($menu['titre']); ?>" class="menu-image">
                 <?php else: ?>
                  <div class="menu-image-placeholder">

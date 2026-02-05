@@ -5,7 +5,7 @@
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 // Dossiers statiques autorisés (en dehors de public/)
-$staticDirs = ['CSS', 'JS', 'images'];
+$staticDirs = ['CSS', 'JS', 'images', 'uploads'];
 
 foreach ($staticDirs as $dir) {
     if (strpos($uri, '/' . $dir . '/') === 0) {
