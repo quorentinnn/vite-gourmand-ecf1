@@ -14,8 +14,8 @@
             <a class="navbar-brand text-white" href="index.php">
                 <span class="Vite">Vite</span><span class="Gourmand">&Gourmand</span>
             </a>
-            
-            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Menu">
+                <span class="navbar-toggler-icon"></span>
             </button>
             
             <div class="collapse navbar-collapse" id="navbarNav">
