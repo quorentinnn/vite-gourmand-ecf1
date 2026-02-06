@@ -1,21 +1,34 @@
 <?php
-// Connexion à MongoDB
+// Connexion à MongoDB (optionnel - fonctionne sans si le driver n'est pas installé)
+
+function isMongoAvailable() {
+    return class_exists('MongoDB\Driver\Manager');
+}
+
 function getMongoClient() {
+    if (!isMongoAvailable()) {
+        return null;
+    }
+
     try {
-        // Récupérer l'URL MongoDB de Railway ou utiliser localhost en local
-$mongoUrl = getenv('MONGO_URL') ?: 'mongodb://localhost:27017';
-return new MongoDB\Driver\Manager($mongoUrl);
+        $mongoUrl = getenv('MONGO_URL') ?: 'mongodb://localhost:27017';
+        return new MongoDB\Driver\Manager($mongoUrl);
     } catch (Exception $e) {
-        die("Erreur MongoDB : " . $e->getMessage());
+        error_log("Erreur MongoDB : " . $e->getMessage());
+        return null;
     }
 }
 
 // Enregistrer une statistique de commande dans MongoDB
 function enregistrerStatCommande($menu_id, $menu_titre, $prix_total, $nombre_personnes, $date_commande) {
+    if (!isMongoAvailable()) {
+        return false;
+    }
+
     try {
         $client = getMongoClient();
-        
-        // Préparer les données
+        if (!$client) return false;
+
         $document = [
             'menu_id' => (int)$menu_id,
             'menu_titre' => $menu_titre,
@@ -24,13 +37,12 @@ function enregistrerStatCommande($menu_id, $menu_titre, $prix_total, $nombre_per
             'date_commande' => new MongoDB\BSON\UTCDateTime(strtotime($date_commande) * 1000),
             'date_enregistrement' => new MongoDB\BSON\UTCDateTime()
         ];
-        
-        // Insérer dans MongoDB
+
         $bulk = new MongoDB\Driver\BulkWrite();
         $bulk->insert($document);
-        
+
         $client->executeBulkWrite('ecf_gourmand.statistiques_commandes', $bulk);
-        
+
         return true;
     } catch (Exception $e) {
         error_log("Erreur MongoDB : " . $e->getMessage());
@@ -40,30 +52,30 @@ function enregistrerStatCommande($menu_id, $menu_titre, $prix_total, $nombre_per
 
 // Récupérer les statistiques pour les graphiques
 function getStatistiquesCommandes($menu_id = null, $date_debut = null, $date_fin = null) {
+    if (!isMongoAvailable()) {
+        return [];
+    }
+
     try {
         $client = getMongoClient();
-        
-        // Construire le filtre
+        if (!$client) return [];
+
         $filter = [];
-        
+
         if ($menu_id) {
             $filter['menu_id'] = (int)$menu_id;
         }
-        
+
         if ($date_debut && $date_fin) {
             $filter['date_commande'] = [
                 '$gte' => new MongoDB\BSON\UTCDateTime(strtotime($date_debut) * 1000),
                 '$lte' => new MongoDB\BSON\UTCDateTime(strtotime($date_fin) * 1000)
             ];
         }
-        
-        // Créer la requête
+
         $query = new MongoDB\Driver\Query($filter);
-        
-        // Exécuter la requête
         $cursor = $client->executeQuery('ecf_gourmand.statistiques_commandes', $query);
-        
-        // Convertir en tableau
+
         $resultats = [];
         foreach ($cursor as $document) {
             $resultats[] = [
@@ -74,9 +86,9 @@ function getStatistiquesCommandes($menu_id = null, $date_debut = null, $date_fin
                 'date_commande' => date('Y-m-d', $document->date_commande->toDateTime()->getTimestamp())
             ];
         }
-        
+
         return $resultats;
-        
+
     } catch (Exception $e) {
         error_log("Erreur MongoDB : " . $e->getMessage());
         return [];
