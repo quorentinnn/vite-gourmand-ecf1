@@ -24,64 +24,58 @@ $message_succes = '';
 
 // Traiter la création d'un employé
 if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['creer_employe'])) {
-    
+
     $email = $_POST['email'];
     $mot_de_passe = $_POST['mot_de_passe'];
-    
+
     // Vérifier si l'email existe déjà
     $requete_verif = "SELECT id FROM utilisateurs WHERE email = :email";
     $prep_verif = $pdo->prepare($requete_verif);
     $prep_verif->execute(['email' => $email]);
-    
+
     if($prep_verif->fetch()) {
         $message_erreur = "Cet email existe déjà !";
     } else {
-        // Créer le compte employé
         $mot_de_passe_hash = password_hash($mot_de_passe, PASSWORD_DEFAULT);
-        
-        $requete = "INSERT INTO utilisateurs (email, mot_de_passe, role, actif, cree_le) 
+
+        $requete = "INSERT INTO utilisateurs (email, mot_de_passe, role, actif, cree_le)
                     VALUES (:email, :mot_de_passe, 'employe', 1, NOW())";
-        
+
         $preparation = $pdo->prepare($requete);
         $preparation->execute([
             'email' => $email,
             'mot_de_passe' => $mot_de_passe_hash
         ]);
-        
-        // TODO : Envoyer un email à l'employé
-        // mail($email, "Votre compte employé", "Un compte a été créé pour vous...");
-        
-        $message_succes = "Employé créé avec succès ! L'employé doit contacter l'admin pour obtenir son mot de passe.";
+
+        $message_succes = "Employé créé avec succès !";
     }
 }
 
 // Traiter la désactivation/activation d'un employé
 if(isset($_GET['toggle_actif'])) {
     $employe_id = $_GET['toggle_actif'];
-    
-    // Récupérer le statut actuel
+
     $requete_statut = "SELECT actif FROM utilisateurs WHERE id = :id";
     $prep_statut = $pdo->prepare($requete_statut);
     $prep_statut->execute(['id' => $employe_id]);
     $employe = $prep_statut->fetch();
-    
-    // Inverser le statut
+
     $nouveau_statut = $employe['actif'] == 1 ? 0 : 1;
-    
+
     $requete_update = "UPDATE utilisateurs SET actif = :actif WHERE id = :id";
     $prep_update = $pdo->prepare($requete_update);
     $prep_update->execute([
         'actif' => $nouveau_statut,
         'id' => $employe_id
     ]);
-    
+
     $message_succes = $nouveau_statut == 1 ? "Compte activé !" : "Compte désactivé !";
 }
 
 // Récupérer tous les employés
-$requete_employes = "SELECT id, nom, prenom, email, actif, cree_le 
-                     FROM utilisateurs 
-                     WHERE role = 'employe' 
+$requete_employes = "SELECT id, nom, prenom, email, actif, cree_le
+                     FROM utilisateurs
+                     WHERE role = 'employe'
                      ORDER BY cree_le DESC";
 $preparation_employes = $pdo->prepare($requete_employes);
 $preparation_employes->execute();
@@ -94,100 +88,117 @@ $employes = $preparation_employes->fetchAll();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gérer les Employés</title>
+    <title>Gérer les Employés - Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../CSS/styles.css?v=<?= time() ?>">
     <link rel="stylesheet" href="../CSS/admin.css?v=<?= time() ?>">
 </head>
 <body>
     <?php require_once '../includes/header.php'; ?>
 
-    <div class="container mt-5">
-        <h1>Gérer les Employés</h1>
+    <div class="admin-dashboard">
+        <div class="container py-4">
+            <div class="dashboard-card">
+                <h1>Gérer les Employés</h1>
 
-        <!-- Messages -->
-        <?php if($message_erreur != ''): ?>
-            <div class="alert alert-danger">
-                <?php echo $message_erreur; ?>
-            </div>
-        <?php endif; ?>
-
-        <?php if($message_succes != ''): ?>
-            <div class="alert alert-success">
-                <?php echo $message_succes; ?>
-            </div>
-        <?php endif; ?>
-
-        <!-- Formulaire de création d'employé -->
-        <div class="card mb-4">
-            <div class="card-header">
-                <h3>Créer un nouveau compte employé</h3>
-            </div>
-            <div class="card-body">
-                <form method="POST">
-                    <div class="mb-3">
-                        <label>Email (sera l'identifiant) *</label>
-                        <input type="email" class="form-control" name="email" required>
+                <?php if($message_erreur != ''): ?>
+                    <div class="alert alert-danger">
+                        <?php echo $message_erreur; ?>
                     </div>
+                <?php endif; ?>
 
-                    <div class="mb-3">
-                        <label>Mot de passe *</label>
-                        <input type="text" class="form-control" name="mot_de_passe" required>
-                        <small class="text-muted">Ce mot de passe ne sera PAS envoyé par email. L'employé doit contacter l'admin.</small>
+                <?php if($message_succes != ''): ?>
+                    <div class="alert alert-success">
+                        <?php echo $message_succes; ?>
                     </div>
+                <?php endif; ?>
 
-                    <button type="submit" name="creer_employe" class="btn btn-primary">Créer l'employé</button>
-                </form>
-            </div>
-        </div>
-
-        <!-- Liste des employés -->
-        <div class="card">
-            <div class="card-header">
-                <h3>Liste des employés</h3>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nom</th>
-                            <th>Prénom</th>
-                            <th>Email</th>
-                            <th>Statut</th>
-                            <th>Date création</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach($employes as $employe): ?>
-                            <tr>
-                                <td><?php echo $employe['id']; ?></td>
-                                <td><?php echo $employe['nom'] ?? 'Non renseigné'; ?></td>
-                                <td><?php echo $employe['prenom'] ?? 'Non renseigné'; ?></td>
-                                <td><?php echo htmlspecialchars($employe['email']); ?></td>
-                                <td>
-                                    <?php if($employe['actif'] == 1): ?>
-                                        <span class="badge bg-success">Actif</span>
-                                    <?php else: ?>
-                                        <span class="badge bg-danger">Désactivé</span>
-                                    <?php endif; ?>
-                                </td>
-                                <td><?php echo date('d/m/Y', strtotime($employe['cree_le'])); ?></td>
-                                <td>
-                                    <a href="?toggle_actif=<?php echo $employe['id']; ?>" 
-                                       class="btn btn-sm <?php echo $employe['actif'] == 1 ? 'btn-warning' : 'btn-success'; ?>"
-                                       onclick="return confirm('Confirmer le changement de statut ?')">
-                                        <?php echo $employe['actif'] == 1 ? 'Désactiver' : 'Activer'; ?>
-                                    </a>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                <div class="card mb-4">
+                    <div class="card-header bg-white">
+                        <h3 class="mb-0">Créer un nouveau compte employé</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Email (sera l'identifiant) *</label>
+                                    <input type="email" class="form-control" name="email" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Mot de passe *</label>
+                                    <input type="text" class="form-control" name="mot_de_passe" required>
+                                    <small class="text-muted">Ce mot de passe ne sera PAS envoyé par email.</small>
+                                </div>
+                            </div>
+                            <button type="submit" name="creer_employe" class="btn btn-admin">
+                                <i class="bi bi-person-plus"></i> Créer l'employé
+                            </button>
+                        </form>
+                    </div>
                 </div>
+
+                <div class="card">
+                    <div class="card-header bg-white">
+                        <h3 class="mb-0">Liste des employés</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nom</th>
+                                        <th>Prénom</th>
+                                        <th>Email</th>
+                                        <th>Statut</th>
+                                        <th>Date création</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if(empty($employes)): ?>
+                                        <tr>
+                                            <td colspan="7" class="text-center">Aucun employé enregistré</td>
+                                        </tr>
+                                    <?php else: ?>
+                                        <?php foreach($employes as $employe): ?>
+                                            <tr>
+                                                <td><?php echo $employe['id']; ?></td>
+                                                <td><?php echo $employe['nom'] ?? 'Non renseigné'; ?></td>
+                                                <td><?php echo $employe['prenom'] ?? 'Non renseigné'; ?></td>
+                                                <td><?php echo htmlspecialchars($employe['email']); ?></td>
+                                                <td>
+                                                    <?php if($employe['actif'] == 1): ?>
+                                                        <span class="badge bg-success">Actif</span>
+                                                    <?php else: ?>
+                                                        <span class="badge bg-danger">Désactivé</span>
+                                                    <?php endif; ?>
+                                                </td>
+                                                <td><?php echo date('d/m/Y', strtotime($employe['cree_le'])); ?></td>
+                                                <td>
+                                                    <a href="?toggle_actif=<?php echo $employe['id']; ?>"
+                                                       class="btn btn-sm <?php echo $employe['actif'] == 1 ? 'btn-warning' : 'btn-success'; ?>"
+                                                       onclick="return confirm('Confirmer le changement de statut ?')">
+                                                        <?php echo $employe['actif'] == 1 ? 'Désactiver' : 'Activer'; ?>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="index.php" class="btn btn-secondary mt-3">
+                    <i class="bi bi-arrow-left"></i> Retour au dashboard
+                </a>
             </div>
         </div>
     </div>
+
+    <?php require_once '../includes/footer.php'; ?>
 </body>
 </html>

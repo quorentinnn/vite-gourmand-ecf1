@@ -38,13 +38,12 @@ $ca_par_menu = [];
 
 foreach($statistiques as $stat) {
     $menu_titre = $stat['menu_titre'];
-    
-    // Compter le nombre de commandes par menu
+
     if(!isset($commandes_par_menu[$menu_titre])) {
         $commandes_par_menu[$menu_titre] = 0;
         $ca_par_menu[$menu_titre] = 0;
     }
-    
+
     $commandes_par_menu[$menu_titre]++;
     $ca_par_menu[$menu_titre] += $stat['prix_total'];
 }
@@ -63,130 +62,132 @@ $data_ca = json_encode(array_values($ca_par_menu));
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Statistiques - Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../CSS/styles.css?v=<?= time() ?>">
     <link rel="stylesheet" href="../CSS/admin.css?v=<?= time() ?>">
 </head>
 <body>
     <?php require_once '../includes/header.php'; ?>
 
-    <div class="container mt-5">
-        <h1>Statistiques des Commandes</h1>
+    <div class="admin-dashboard">
+        <div class="container py-4">
+            <div class="dashboard-card">
+                <h1>Statistiques des Commandes</h1>
 
-        <!-- Filtres -->
-        <div class="card mb-4">
-            <div class="card-header">
-                <h3>Filtres</h3>
-            </div>
-            <div class="card-body">
-                <form method="GET" class="row g-3">
-                    <div class="col-md-4">
-                        <label>Menu</label>
-                        <select name="menu_id" class="form-control">
-                            <option value="">Tous les menus</option>
-                            <?php foreach($tous_les_menus as $menu): ?>
-                                <option value="<?php echo $menu['id']; ?>" 
-                                    <?php echo $menu_id_filtre == $menu['id'] ? 'selected' : ''; ?>>
-                                    <?php echo htmlspecialchars($menu['titre']); ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
+                <div class="card mb-4">
+                    <div class="card-header bg-white">
+                        <h3 class="mb-0">Filtres</h3>
                     </div>
-
-                    <div class="col-md-3">
-                        <label>Date début</label>
-                        <input type="date" name="date_debut" class="form-control" 
-                               value="<?php echo $date_debut; ?>">
+                    <div class="card-body">
+                        <form method="GET" class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label">Menu</label>
+                                <select name="menu_id" class="form-select">
+                                    <option value="">Tous les menus</option>
+                                    <?php foreach($tous_les_menus as $menu): ?>
+                                        <option value="<?php echo $menu['id']; ?>"
+                                            <?php echo $menu_id_filtre == $menu['id'] ? 'selected' : ''; ?>>
+                                            <?php echo htmlspecialchars($menu['titre']); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Date début</label>
+                                <input type="date" name="date_debut" class="form-control"
+                                       value="<?php echo $date_debut; ?>">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Date fin</label>
+                                <input type="date" name="date_fin" class="form-control"
+                                       value="<?php echo $date_fin; ?>">
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button type="submit" class="btn btn-admin w-100">
+                                    <i class="bi bi-funnel"></i> Filtrer
+                                </button>
+                            </div>
+                        </form>
                     </div>
-
-                    <div class="col-md-3">
-                        <label>Date fin</label>
-                        <input type="date" name="date_fin" class="form-control" 
-                               value="<?php echo $date_fin; ?>">
-                    </div>
-
-                    <div class="col-md-2 d-flex align-items-end">
-                        <button type="submit" class="btn btn-primary w-100">Filtrer</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- Graphique : Nombre de commandes par menu -->
-        <div class="card mb-4">
-            <div class="card-header">
-                <h3>Nombre de commandes par menu</h3>
-            </div>
-            <div class="card-body">
-                <div class="chart-container"><canvas id="graphiqueCommandes"></canvas></div>
-            </div>
-        </div>
-
-        <!-- Graphique : Chiffre d'affaires par menu -->
-        <div class="card mb-4">
-            <div class="card-header">
-                <h3>Chiffre d'affaires par menu</h3>
-            </div>
-            <div class="card-body">
-                <div class="chart-container"><canvas id="graphiqueCA"></canvas></div>
-            </div>
-        </div>
-
-        <!-- Tableau détaillé -->
-        <div class="card">
-            <div class="card-header">
-                <h3>Détails par menu</h3>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Menu</th>
-                            <th>Nombre de commandes</th>
-                            <th>Chiffre d'affaires total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if(empty($commandes_par_menu)): ?>
-                            <tr>
-                                <td colspan="3" class="text-center">Aucune donnée disponible</td>
-                            </tr>
-                        <?php else: ?>
-                            <?php foreach($commandes_par_menu as $menu_titre => $nb_commandes): ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($menu_titre); ?></td>
-                                    <td><?php echo $nb_commandes; ?></td>
-                                    <td><?php echo number_format($ca_par_menu[$menu_titre], 2); ?> €</td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
                 </div>
+
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <div class="card">
+                            <div class="card-header bg-white">
+                                <h3 class="mb-0">Commandes par menu</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="graphiqueCommandes"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="card">
+                            <div class="card-header bg-white">
+                                <h3 class="mb-0">Chiffre d'affaires par menu</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="graphiqueCA"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header bg-white">
+                        <h3 class="mb-0">Détails par menu</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Menu</th>
+                                        <th>Nombre de commandes</th>
+                                        <th>Chiffre d'affaires total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if(empty($commandes_par_menu)): ?>
+                                        <tr>
+                                            <td colspan="3" class="text-center">Aucune donnée disponible</td>
+                                        </tr>
+                                    <?php else: ?>
+                                        <?php foreach($commandes_par_menu as $menu_titre => $nb_commandes): ?>
+                                            <tr>
+                                                <td><?php echo htmlspecialchars($menu_titre); ?></td>
+                                                <td><?php echo $nb_commandes; ?></td>
+                                                <td><?php echo number_format($ca_par_menu[$menu_titre], 2); ?> &euro;</td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="index.php" class="btn btn-secondary mt-3">
+                    <i class="bi bi-arrow-left"></i> Retour au dashboard
+                </a>
             </div>
         </div>
     </div>
 
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Données depuis PHP
             const labels = <?php echo $labels; ?>;
             const dataCommandes = <?php echo $data_commandes; ?>;
             const dataCA = <?php echo $data_ca; ?>;
-            
-            console.log('Chart.js chargé');
-            console.log('Labels:', labels);
-            console.log('Data commandes:', dataCommandes);
-            console.log('Data CA:', dataCA);
-            
-            // Vérifier si on a des données
-            if (labels.length === 0) {
-                console.log('Aucune donnée à afficher');
-                return;
-            }
-            
-            // Graphique 1 : Nombre de commandes
+
+            if (labels.length === 0) return;
+
             const ctxCommandes = document.getElementById('graphiqueCommandes');
             if (ctxCommandes) {
                 new Chart(ctxCommandes, {
@@ -196,34 +197,26 @@ $data_ca = json_encode(array_values($ca_par_menu));
                         datasets: [{
                             label: 'Nombre de commandes',
                             data: dataCommandes,
-                            backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                            borderColor: 'rgba(54, 162, 235, 1)',
+                            backgroundColor: [
+                                'rgba(139, 21, 56, 0.7)',
+                                'rgba(212, 175, 55, 0.7)',
+                                'rgba(54, 162, 235, 0.7)',
+                                'rgba(75, 192, 192, 0.7)',
+                                'rgba(153, 102, 255, 0.7)'
+                            ],
                             borderWidth: 2
                         }]
                     },
                     options: {
                         responsive: true,
                         maintainAspectRatio: true,
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                ticks: {
-                                    stepSize: 1
-                                }
-                            }
-                        },
                         plugins: {
-                            legend: {
-                                display: true,
-                                position: 'top'
-                            }
+                            legend: { display: true, position: 'bottom' }
                         }
                     }
                 });
-                console.log('Graphique commandes créé');
             }
 
-            // Graphique 2 : Chiffre d'affaires
             const ctxCA = document.getElementById('graphiqueCA');
             if (ctxCA) {
                 new Chart(ctxCA, {
@@ -231,37 +224,30 @@ $data_ca = json_encode(array_values($ca_par_menu));
                     data: {
                         labels: labels,
                         datasets: [{
-                            label: 'Chiffre d\'affaires (€)',
+                            label: "Chiffre d'affaires",
                             data: dataCA,
-                            backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
+                            backgroundColor: [
+                                'rgba(212, 175, 55, 0.7)',
+                                'rgba(139, 21, 56, 0.7)',
+                                'rgba(75, 192, 192, 0.7)',
+                                'rgba(54, 162, 235, 0.7)',
+                                'rgba(255, 159, 64, 0.7)'
+                            ],
                             borderWidth: 2
                         }]
                     },
                     options: {
                         responsive: true,
                         maintainAspectRatio: true,
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                ticks: {
-                                    callback: function(value) {
-                                        return value + ' €';
-                                    }
-                                }
-                            }
-                        },
                         plugins: {
-                            legend: {
-                                display: true,
-                                position: 'top'
-                            }
+                            legend: { display: true, position: 'bottom' }
                         }
                     }
                 });
-                console.log('Graphique CA créé');
             }
         });
     </script>
+
+    <?php require_once '../includes/footer.php'; ?>
 </body>
 </html>

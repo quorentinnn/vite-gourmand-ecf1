@@ -25,12 +25,12 @@ if(isset($_POST['ajouter'])) {
     $nom = $_POST['nom'];
     $description = $_POST['description'];
     $categorie = $_POST['categorie'];
-    
+
     if(empty($nom) || empty($categorie)) {
         $message = "Le nom et la catégorie sont obligatoires";
         $message_type = 'danger';
     } else {
-        $requete = "INSERT INTO plats (nom, description, categorie) 
+        $requete = "INSERT INTO plats (nom, description, categorie)
                     VALUES (:nom, :description, :categorie)";
         $preparation = $pdo->prepare($requete);
         $preparation->execute([
@@ -38,7 +38,7 @@ if(isset($_POST['ajouter'])) {
             'description' => $description,
             'categorie' => $categorie
         ]);
-        
+
         $message = "Plat ajouté avec succès !";
         $message_type = 'success';
     }
@@ -47,13 +47,12 @@ if(isset($_POST['ajouter'])) {
 // Traiter la suppression d'un plat
 if(isset($_GET['supprimer'])) {
     $id = $_GET['supprimer'];
-    
-    // Vérifier si le plat est utilisé dans un menu
+
     $requete_verif = "SELECT COUNT(*) as nb FROM composer WHERE plat_id = :id";
     $prep_verif = $pdo->prepare($requete_verif);
     $prep_verif->execute(['id' => $id]);
     $resultat = $prep_verif->fetch();
-    
+
     if($resultat['nb'] > 0) {
         $message = "Impossible de supprimer ce plat, il est utilisé dans des menus !";
         $message_type = 'danger';
@@ -61,7 +60,7 @@ if(isset($_GET['supprimer'])) {
         $requete = "DELETE FROM plats WHERE id = :id";
         $preparation = $pdo->prepare($requete);
         $preparation->execute(['id' => $id]);
-        
+
         $message = "Plat supprimé avec succès !";
         $message_type = 'success';
     }
@@ -73,15 +72,15 @@ if(isset($_POST['modifier'])) {
     $nom = $_POST['nom'];
     $description = $_POST['description'];
     $categorie = $_POST['categorie'];
-    
+
     if(empty($nom) || empty($categorie)) {
         $message = "Le nom et la catégorie sont obligatoires";
         $message_type = 'danger';
     } else {
-        $requete = "UPDATE plats 
-                    SET nom = :nom, 
-                        description = :description, 
-                        categorie = :categorie 
+        $requete = "UPDATE plats
+                    SET nom = :nom,
+                        description = :description,
+                        categorie = :categorie
                     WHERE id = :id";
         $preparation = $pdo->prepare($requete);
         $preparation->execute([
@@ -90,7 +89,7 @@ if(isset($_POST['modifier'])) {
             'categorie' => $categorie,
             'id' => $id
         ]);
-        
+
         $message = "Plat modifié avec succès !";
         $message_type = 'success';
     }
@@ -120,163 +119,169 @@ foreach($plats as $plat) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion des Plats</title>
+    <title>Gestion des Plats - Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../CSS/styles.css?v=<?= time() ?>">
     <link rel="stylesheet" href="../CSS/admin.css?v=<?= time() ?>">
 </head>
 <body>
     <?php require_once '../includes/header.php'; ?>
 
-    <div class="container mt-5">
-        <h1>Gestion des Plats</h1>
+    <div class="admin-dashboard">
+        <div class="container py-4">
+            <div class="dashboard-card">
+                <h1>Gestion des Plats</h1>
 
-        <!-- Messages -->
-        <?php if($message != ''): ?>
-            <div class="alert alert-<?php echo $message_type; ?>">
-                <?php echo $message; ?>
-            </div>
-        <?php endif; ?>
+                <?php if($message != ''): ?>
+                    <div class="alert alert-<?php echo $message_type; ?>">
+                        <?php echo $message; ?>
+                    </div>
+                <?php endif; ?>
 
-        <!-- Formulaire d'ajout -->
-        <div class="card mb-4">
-            <div class="card-header">
-                <h3>Ajouter un plat</h3>
-            </div>
-            <div class="card-body">
-                <form method="POST">
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label>Nom du plat *</label>
-                            <input type="text" name="nom" class="form-control" required>
+                <div class="card mb-4">
+                    <div class="card-header bg-white">
+                        <h3 class="mb-0">Ajouter un plat</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Nom du plat *</label>
+                                    <input type="text" name="nom" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Catégorie *</label>
+                                    <select name="categorie" class="form-select" required>
+                                        <option value="">-- Choisir --</option>
+                                        <option value="entree">Entrée</option>
+                                        <option value="plat">Plat principal</option>
+                                        <option value="dessert">Dessert</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Description</label>
+                                <textarea name="description" class="form-control" rows="3"></textarea>
+                            </div>
+                            <button type="submit" name="ajouter" class="btn btn-admin">
+                                <i class="bi bi-plus-circle"></i> Ajouter le plat
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <?php
+                $categories_labels = [
+                    'entree' => 'Entrées',
+                    'plat' => 'Plats principaux',
+                    'dessert' => 'Desserts'
+                ];
+
+                foreach($categories_labels as $cat => $label):
+                    if(!empty($plats_par_categorie[$cat])):
+                ?>
+                    <div class="card mb-4">
+                        <div class="card-header bg-white">
+                            <h3 class="mb-0"><?php echo $label; ?></h3>
                         </div>
-                        
-                        <div class="col-md-6 mb-3">
-                            <label>Catégorie *</label>
-                            <select name="categorie" class="form-control" required>
-                                <option value="">-- Choisir --</option>
-                                <option value="entree">Entrée</option>
-                                <option value="plat">Plat principal</option>
-                                <option value="dessert">Dessert</option>
-                            </select>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover align-middle">
+                                    <thead>
+                                        <tr>
+                                            <th width="5%">ID</th>
+                                            <th width="25%">Nom</th>
+                                            <th width="45%">Description</th>
+                                            <th width="10%">Catégorie</th>
+                                            <th width="15%">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach($plats_par_categorie[$cat] as $plat): ?>
+                                            <tr>
+                                                <td><?php echo $plat['id']; ?></td>
+                                                <td><?php echo htmlspecialchars($plat['nom']); ?></td>
+                                                <td>
+                                                    <small><?php echo htmlspecialchars(substr($plat['description'], 0, 100)); ?><?php echo strlen($plat['description']) > 100 ? '...' : ''; ?></small>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-secondary">
+                                                        <?php echo ucfirst($plat['categorie']); ?>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <div class="btn-action-group">
+                                                        <button type="button" class="btn btn-sm btn-warning"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#modalModifier<?php echo $plat['id']; ?>">
+                                                            <i class="bi bi-pencil"></i> Modifier
+                                                        </button>
+                                                        <a href="?supprimer=<?php echo $plat['id']; ?>"
+                                                           class="btn btn-sm btn-danger"
+                                                           onclick="return confirm('Confirmer la suppression ?')">
+                                                            <i class="bi bi-trash"></i> Supprimer
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Modal modification -->
+                                            <div class="modal fade" id="modalModifier<?php echo $plat['id']; ?>">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Modifier le plat</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                        </div>
+                                                        <form method="POST">
+                                                            <div class="modal-body">
+                                                                <input type="hidden" name="id" value="<?php echo $plat['id']; ?>">
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Nom *</label>
+                                                                    <input type="text" name="nom" class="form-control"
+                                                                           value="<?php echo htmlspecialchars($plat['nom']); ?>" required>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Catégorie *</label>
+                                                                    <select name="categorie" class="form-select" required>
+                                                                        <option value="entree" <?php echo $plat['categorie'] == 'entree' ? 'selected' : ''; ?>>Entrée</option>
+                                                                        <option value="plat" <?php echo $plat['categorie'] == 'plat' ? 'selected' : ''; ?>>Plat principal</option>
+                                                                        <option value="dessert" <?php echo $plat['categorie'] == 'dessert' ? 'selected' : ''; ?>>Dessert</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Description</label>
+                                                                    <textarea name="description" class="form-control" rows="4"><?php echo htmlspecialchars($plat['description']); ?></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                                                <button type="submit" name="modifier" class="btn btn-admin">Enregistrer</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div class="mb-3">
-                        <label>Description</label>
-                        <textarea name="description" class="form-control" rows="3"></textarea>
-                    </div>
-                    
-                    <button type="submit" name="ajouter" class="btn btn-primary">Ajouter le plat</button>
-                </form>
+                <?php
+                    endif;
+                endforeach;
+                ?>
+
+                <a href="index.php" class="btn btn-secondary mt-3">
+                    <i class="bi bi-arrow-left"></i> Retour au dashboard
+                </a>
             </div>
         </div>
-
-        <!-- Liste des plats par catégorie -->
-        <?php 
-        $categories_labels = [
-            'entree' => 'Entrées',
-            'plat' => 'Plats principaux',
-            'dessert' => 'Desserts'
-        ];
-        
-        foreach($categories_labels as $cat => $label): 
-            if(!empty($plats_par_categorie[$cat])): 
-        ?>
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h3><?php echo $label; ?></h3>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th width="5%">ID</th>
-                                <th width="25%">Nom</th>
-                                <th width="45%">Description</th>
-                                <th width="10%">Catégorie</th>
-                                <th width="15%">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach($plats_par_categorie[$cat] as $plat): ?>
-                                <tr>
-                                    <td><?php echo $plat['id']; ?></td>
-                                    <td><?php echo htmlspecialchars($plat['nom']); ?></td>
-                                    <td>
-                                        <small><?php echo htmlspecialchars(substr($plat['description'], 0, 100)); ?><?php echo strlen($plat['description']) > 100 ? '...' : ''; ?></small>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-secondary">
-                                            <?php echo ucfirst($plat['categorie']); ?>
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-warning" 
-                                                data-bs-toggle="modal" 
-                                                data-bs-target="#modalModifier<?php echo $plat['id']; ?>">
-                                            Modifier
-                                        </button>
-                                        <a href="?supprimer=<?php echo $plat['id']; ?>" 
-                                           class="btn btn-sm btn-danger"
-                                           onclick="return confirm('Confirmer la suppression ?')">
-                                            Supprimer
-                                        </a>
-                                    </td>
-                                </tr>
-                                
-                                <!-- Modal modification -->
-                                <div class="modal fade" id="modalModifier<?php echo $plat['id']; ?>">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Modifier le plat</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                            </div>
-                                            <form method="POST">
-                                                <div class="modal-body">
-                                                    <input type="hidden" name="id" value="<?php echo $plat['id']; ?>">
-                                                    
-                                                    <div class="mb-3">
-                                                        <label>Nom *</label>
-                                                        <input type="text" name="nom" class="form-control" 
-                                                               value="<?php echo htmlspecialchars($plat['nom']); ?>" required>
-                                                    </div>
-                                                    
-                                                    <div class="mb-3">
-                                                        <label>Catégorie *</label>
-                                                        <select name="categorie" class="form-control" required>
-                                                            <option value="entree" <?php echo $plat['categorie'] == 'entree' ? 'selected' : ''; ?>>Entrée</option>
-                                                            <option value="plat" <?php echo $plat['categorie'] == 'plat' ? 'selected' : ''; ?>>Plat principal</option>
-                                                            <option value="dessert" <?php echo $plat['categorie'] == 'dessert' ? 'selected' : ''; ?>>Dessert</option>
-                                                        </select>
-                                                    </div>
-                                                    
-                                                    <div class="mb-3">
-                                                        <label>Description</label>
-                                                        <textarea name="description" class="form-control" rows="4"><?php echo htmlspecialchars($plat['description']); ?></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                                                    <button type="submit" name="modifier" class="btn btn-primary">Enregistrer</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                    </div>
-                </div>
-            </div>
-        <?php 
-            endif;
-        endforeach; 
-        ?>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <?php require_once '../includes/footer.php'; ?>
 </body>
 </html>
