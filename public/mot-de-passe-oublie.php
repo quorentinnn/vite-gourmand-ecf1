@@ -51,15 +51,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         $headers .= "Reply-To: noreply@vite-gourmand.fr\r\n";
         $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
-        // Essayer d'envoyer l'email
-        $email_envoye = @mail($email, $sujet, $contenu, $headers);
+        // Essayer d'envoyer l'email (optionnel)
+        @mail($email, $sujet, $contenu, $headers);
 
-        if($email_envoye) {
-            $message = "Un email de réinitialisation a été envoyé à votre adresse.";
-        } else {
-            // Si mail() ne fonctionne pas (Railway), afficher le lien directement
-            $message = "Cliquez sur ce lien pour réinitialiser votre mot de passe :<br><a href='$lien' class='btn btn-sm btn-primary mt-2'>Réinitialiser mon mot de passe</a>";
-        }
+        // Toujours afficher le lien (car mail() peut ne pas fonctionner)
+        $message = "Si un compte existe avec cet email, vous pouvez réinitialiser votre mot de passe :<br><br>";
+        $message .= "<a href='$lien' class='btn btn-primary'>Réinitialiser mon mot de passe</a>";
         $message_type = 'success';
         
     } else {
