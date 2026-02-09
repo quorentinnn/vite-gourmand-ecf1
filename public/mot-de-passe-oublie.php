@@ -32,12 +32,34 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
             'id' => $user['id']
         ]);
         
-        // Créer le lien de réinitialisation
-        $lien = "http://localhost/TEST_ECF/public/reinitialiser-mot-de-passe.php?token=" . $token;
-        
-        // TODO : Envoyer par email
-        // Pour le dev, on affiche le lien
-        $message = "Un email de réinitialisation a été envoyé ! (Mode DEV : <a href='$lien'>Cliquez ici</a>)";
+        // Créer le lien de réinitialisation (dynamique selon l'environnement)
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+        $host = $_SERVER['HTTP_HOST'];
+        $lien = $protocol . "://" . $host . "/reinitialiser-mot-de-passe.php?token=" . $token;
+
+        // Envoyer l'email
+        $sujet = "Réinitialisation de votre mot de passe - Vite & Gourmand";
+        $contenu = "Bonjour,\n\n";
+        $contenu .= "Vous avez demandé la réinitialisation de votre mot de passe.\n\n";
+        $contenu .= "Cliquez sur ce lien pour choisir un nouveau mot de passe :\n";
+        $contenu .= $lien . "\n\n";
+        $contenu .= "Ce lien expire dans 1 heure.\n\n";
+        $contenu .= "Si vous n'avez pas fait cette demande, ignorez cet email.\n\n";
+        $contenu .= "L'équipe Vite & Gourmand";
+
+        $headers = "From: noreply@vite-gourmand.fr\r\n";
+        $headers .= "Reply-To: noreply@vite-gourmand.fr\r\n";
+        $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+
+        // Essayer d'envoyer l'email
+        $email_envoye = @mail($email, $sujet, $contenu, $headers);
+
+        if($email_envoye) {
+            $message = "Un email de réinitialisation a été envoyé à votre adresse.";
+        } else {
+            // Si mail() ne fonctionne pas (Railway), afficher le lien directement
+            $message = "Cliquez sur ce lien pour réinitialiser votre mot de passe :<br><a href='$lien' class='btn btn-sm btn-primary mt-2'>Réinitialiser mon mot de passe</a>";
+        }
         $message_type = 'success';
         
     } else {
