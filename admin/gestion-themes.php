@@ -105,7 +105,7 @@ $themes = $preparation_themes->fetchAll();
     <div class="admin-dashboard">
         <div class="container py-4">
             <div class="dashboard-card">
-                <h1>Gestion des Thèmes</h1>
+                <h1 class="text-center">Gestion des Thèmes</h1>
 
                 <?php if($message != ''): ?>
                     <div class="alert alert-<?php echo $message_type; ?>">

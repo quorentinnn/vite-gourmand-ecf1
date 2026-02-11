@@ -136,7 +136,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="admin-dashboard">
         <div class="container py-4">
             <div class="dashboard-card">
-                <h1>Modifier le Menu</h1>
+                <h1 class="text-center">Modifier le Menu</h1>
 
                 <?php if($message_erreur != ''): ?>
                     <div class="alert alert-danger">

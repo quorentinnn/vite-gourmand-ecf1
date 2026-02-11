@@ -25,6 +25,7 @@ $user_prenom = $_SESSION['user_prenom'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Administrateur</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../CSS/styles.css?v=<?= time() ?>">
     <link rel="stylesheet" href="../CSS/admin.css?v=<?= time() ?>">
 </head>
@@ -34,8 +35,8 @@ $user_prenom = $_SESSION['user_prenom'];
     <div class="admin-dashboard">
         <div class="container py-4">
             <div class="dashboard-card">
-                <h1>Dashboard Administrateur</h1>
-                <p class="dashboard-welcome">Bienvenue <?php echo htmlspecialchars($user_prenom . ' ' . $user_nom); ?> !</p>
+                <h1 class="text-center">Dashboard Administrateur</h1>
+                <p class="dashboard-welcome text-center">Bienvenue <?php echo htmlspecialchars($user_prenom . ' ' . $user_nom); ?> !</p>
 
                 <div class="dashboard-actions">
                     <div class="row g-3">

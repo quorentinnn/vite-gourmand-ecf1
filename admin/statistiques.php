@@ -127,9 +127,6 @@ $donnees_ca_json = json_encode($donnees_ca);
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
     <!-- Nos styles -->
     <link rel="stylesheet" href="../CSS/styles.css">
     <link rel="stylesheet" href="../CSS/admin.css">
@@ -142,20 +139,17 @@ $donnees_ca_json = json_encode($donnees_ca);
             <div class="dashboard-card">
 
                 <!-- TITRE -->
-                <h1><i class="bi bi-graph-up"></i> Statistiques</h1>
-                <p class="text-muted mb-4">Vue d'ensemble des commandes</p>
+                <h1 class="text-center">Statistiques</h1>
+                <p class="text-muted mb-4 text-center">Vue d'ensemble des commandes</p>
 
                 <!-- ============================================ -->
                 <!-- CARTES STATISTIQUES                          -->
                 <!-- ============================================ -->
-                <div class="row mb-4">
+                <div class="row mb-4 justify-content-center">
 
                     <!-- Carte 1: Total commandes -->
                     <div class="col-md-3 col-sm-6 mb-3">
                         <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="bi bi-cart-check"></i>
-                            </div>
                             <div class="stat-value">
                                 <?php echo $stats_globales['total_commandes']; ?>
                             </div>
@@ -166,9 +160,6 @@ $donnees_ca_json = json_encode($donnees_ca);
                     <!-- Carte 2: Chiffre d'affaires -->
                     <div class="col-md-3 col-sm-6 mb-3">
                         <div class="stat-card gold">
-                            <div class="stat-icon">
-                                <i class="bi bi-currency-euro"></i>
-                            </div>
                             <div class="stat-value">
                                 <?php echo number_format($stats_globales['ca_total'], 0, ',', ' '); ?> €
                             </div>
@@ -179,9 +170,6 @@ $donnees_ca_json = json_encode($donnees_ca);
                     <!-- Carte 3: Personnes servies -->
                     <div class="col-md-3 col-sm-6 mb-3">
                         <div class="stat-card blue">
-                            <div class="stat-icon">
-                                <i class="bi bi-people"></i>
-                            </div>
                             <div class="stat-value">
                                 <?php echo $stats_globales['total_personnes']; ?>
                             </div>
@@ -192,9 +180,6 @@ $donnees_ca_json = json_encode($donnees_ca);
                     <!-- Carte 4: Panier moyen -->
                     <div class="col-md-3 col-sm-6 mb-3">
                         <div class="stat-card green">
-                            <div class="stat-icon">
-                                <i class="bi bi-basket"></i>
-                            </div>
                             <div class="stat-value">
                                 <?php echo number_format($stats_globales['panier_moyen'], 0, ',', ' '); ?> €
                             </div>
@@ -209,7 +194,7 @@ $donnees_ca_json = json_encode($donnees_ca);
                 <!-- ============================================ -->
                 <div class="card mb-4">
                     <div class="card-header bg-white">
-                        <h3 class="mb-0"><i class="bi bi-pie-chart"></i> Répartition par statut</h3>
+                        <h3 class="mb-0">Répartition par statut</h3>
                     </div>
                     <div class="card-body text-center">
 
@@ -244,7 +229,7 @@ $donnees_ca_json = json_encode($donnees_ca);
                     <div class="col-lg-6 mb-4">
                         <div class="card h-100">
                             <div class="card-header bg-white">
-                                <h3 class="mb-0"><i class="bi bi-bar-chart"></i> Commandes par menu</h3>
+                                <h3 class="mb-0">Commandes par menu</h3>
                             </div>
                             <div class="card-body">
                                 <div class="chart-container">
@@ -258,7 +243,7 @@ $donnees_ca_json = json_encode($donnees_ca);
                     <div class="col-lg-6 mb-4">
                         <div class="card h-100">
                             <div class="card-header bg-white">
-                                <h3 class="mb-0"><i class="bi bi-currency-euro"></i> CA par menu</h3>
+                                <h3 class="mb-0">CA par menu</h3>
                             </div>
                             <div class="card-body">
                                 <div class="chart-container">
@@ -276,7 +261,7 @@ $donnees_ca_json = json_encode($donnees_ca);
                 <!-- ============================================ -->
                 <div class="card">
                     <div class="card-header bg-white">
-                        <h3 class="mb-0"><i class="bi bi-table"></i> Détails par menu</h3>
+                        <h3 class="mb-0">Détails par menu</h3>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -295,8 +280,7 @@ $donnees_ca_json = json_encode($donnees_ca);
                                         <!-- Aucune donnée -->
                                         <tr>
                                             <td colspan="4" class="text-center py-4">
-                                                <i class="bi bi-inbox" style="font-size: 2rem; color: #ccc;"></i>
-                                                <p class="text-muted mt-2">Aucune commande</p>
+                                                <p class="text-muted">Aucune commande</p>
                                             </td>
                                         </tr>
                                     <?php else: ?>
@@ -332,9 +316,7 @@ $donnees_ca_json = json_encode($donnees_ca);
                 </div>
 
                 <!-- Bouton retour -->
-                <a href="index.php" class="btn btn-secondary mt-3">
-                    <i class="bi bi-arrow-left"></i> Retour au dashboard
-                </a>
+                <a href="index.php" class="btn btn-secondary mt-3">Retour au dashboard</a>
 
             </div>
         </div>

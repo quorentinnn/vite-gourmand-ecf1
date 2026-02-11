@@ -100,7 +100,7 @@ $employes = $preparation_employes->fetchAll();
     <div class="admin-dashboard">
         <div class="container py-4">
             <div class="dashboard-card">
-                <h1>Gérer les Employés</h1>
+                <h1 class="text-center">Gérer les Employés</h1>
 
                 <?php if($message_erreur != ''): ?>
                     <div class="alert alert-danger">

@@ -42,9 +42,9 @@ $tous_les_menus = $preparation->fetchAll();
     <div class="admin-dashboard">
         <div class="container py-4">
             <div class="dashboard-card">
-                <div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
-                    <h1 class="mb-0">Gestion des Menus</h1>
-                    <a href="ajouter-menu.php" class="btn btn-admin mt-2 mt-md-0">
+                <h1 class="text-center">Gestion des Menus</h1>
+                <div class="text-center mb-3">
+                    <a href="ajouter-menu.php" class="btn btn-admin">
                         <i class="bi bi-plus-circle"></i> Ajouter un menu
                     </a>
                 </div>
