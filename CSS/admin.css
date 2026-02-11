@@ -45,26 +45,36 @@
     background-color: #8B1538;
     color: #ffffff;
     border: none;
-    transition: background-color 0.3s;
+    border-radius: 10px;
+    transition: all 0.3s ease;
     font-size: 0.95rem;
+    box-shadow: 0 3px 8px rgba(139, 21, 56, 0.3);
+    text-align: center;
 }
 
 .dashboard-actions .btn-admin:hover {
     background-color: #6d1029;
     color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(139, 21, 56, 0.4);
 }
 
 .dashboard-actions .btn-logout {
     background-color: #D4AF37;
     color: #8B1538;
     border: none;
+    border-radius: 10px;
     font-weight: bold;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 8px rgba(212, 175, 55, 0.3);
+    text-align: center;
 }
 
 .dashboard-actions .btn-logout:hover {
     background-color: #c49d2e;
     color: #8B1538;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
 }
 
 /*-----------------------------------------------------------*/
@@ -208,5 +218,128 @@
 
     .dashboard-card h1 {
         font-size: 1.3rem;
+    }
+}
+
+/*-----------------------------------------------------------*/
+/* PAGE STATISTIQUES                                          */
+/*-----------------------------------------------------------*/
+
+/* Cartes de statistiques */
+.stat-card {
+    background: linear-gradient(135deg, #8B1538 0%, #a91d47 100%);
+    color: white;
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Variantes de couleurs */
+.stat-card.gold {
+    background: linear-gradient(135deg, #D4AF37 0%, #f0c850 100%);
+}
+
+.stat-card.blue {
+    background: linear-gradient(135deg, #2c5282 0%, #3182ce 100%);
+}
+
+.stat-card.green {
+    background: linear-gradient(135deg, #276749 0%, #38a169 100%);
+}
+
+/* Icone dans la carte */
+.stat-card .stat-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    opacity: 0.9;
+}
+
+/* Valeur (chiffre) */
+.stat-card .stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Label sous la valeur */
+.stat-card .stat-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* Container pour les graphiques */
+.chart-container {
+    position: relative;
+    height: 300px;
+}
+
+/* Badge de statut */
+.status-badge {
+    display: inline-block;
+    padding: 8px 15px;
+    border-radius: 20px;
+    margin: 5px;
+    font-weight: 500;
+}
+
+/* Bouton style admin */
+.btn-admin {
+    background-color: #8B1538;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-admin:hover {
+    background-color: #6d1029;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+/*-----------------------------------------------------------*/
+/* RESPONSIVE STATISTIQUES                                    */
+/*-----------------------------------------------------------*/
+
+@media (max-width: 768px) {
+    .stat-card {
+        padding: 15px;
+    }
+
+    .stat-card .stat-icon {
+        font-size: 2rem;
+    }
+
+    .stat-card .stat-value {
+        font-size: 1.5rem;
+    }
+
+    .stat-card .stat-label {
+        font-size: 0.8rem;
+    }
+
+    .chart-container {
+        height: 250px;
+    }
+
+    .status-badge {
+        padding: 5px 10px;
+        font-size: 0.8rem;
+        margin: 3px;
+    }
+}
+
+@media (max-width: 480px) {
+    .stat-card .stat-value {
+        font-size: 1.3rem;
+    }
+
+    .chart-container {
+        height: 200px;
     }
 }
