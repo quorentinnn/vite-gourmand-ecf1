@@ -200,34 +200,6 @@ $menus = $stmt->fetchAll();
                 </div>
                 <?php endforeach; ?>
 
-                <!-- CARTE MENU 2 -->
-                <div class="menu-card">
-                    <div class="menu-image">
-                        <span>photo</span>
-                    </div>
-                    <div class="menu-content">
-                        <h3 class="menu-name">menu Midi</h3>
-                        <p class="menu-description">Un menu équilibré et savoureux parfait pour vos déjeuners d'affaires ou repas en famille</p>
-                        <p class="menu-min-personnes">4 personnes min</p>
-                        <p class="menu-prix">15e </p>
-                        <a href="menus-detail.php?id=<?php echo $menu['id']; ?>">voir le détail</a>
-                    </div>
-                </div>
-
-                <!-- CARTE MENU 3 -->
-                <div class="menu-card">
-                    <div class="menu-image">
-                        <span>photo</span>
-                    </div>
-                    <div class="menu-content">
-                        <h3 class="menu-name">menu Midi</h3>
-                        <p class="menu-description">Un menu équilibré et savoureux parfait pour vos déjeuners d'affaires ou repas en famille</p>
-                        <p class="menu-min-personnes">4 personnes min</p>
-                        <p class="menu-prix">15e / 4personne</p>
-                        <a href="menus-detail.php?id=3" class="btn-detail">voir le détail</a>
-                    </div>
-                </div>
-
             </div>
         </div>
     </section>
