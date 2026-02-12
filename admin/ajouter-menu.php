@@ -71,6 +71,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $theme_id = $_POST['theme_id'];
     $regime_id = $_POST['regime_id'];
+    $nb_personnes_min = $_POST['nb_personnes_min'] ?? 1;
 
     if(empty($titre)) {
         $message_erreur = 'Le titre est obligatoire';
@@ -81,8 +82,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     } elseif(empty($regime_id)) {
         $message_erreur = 'Le régime est obligatoire';
     } else {
-        $requete = "INSERT INTO menus (titre, description, prix, image, theme_id, regime_id)
-                    VALUES (:titre, :description, :prix, :image, :theme_id, :regime_id)";
+        $requete = "INSERT INTO menus (titre, description, prix, image, theme_id, regime_id, nb_personnes_min)
+                    VALUES (:titre, :description, :prix, :image, :theme_id, :regime_id, :nb_personnes_min)";
         $preparation = $pdo->prepare($requete);
         $preparation->execute([
             'titre' => $titre,
@@ -90,7 +91,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             'prix' => $prix,
             'image' => $nom_image,
             'theme_id' => $theme_id,
-            'regime_id' => $regime_id
+            'regime_id' => $regime_id,
+            'nb_personnes_min' => $nb_personnes_min
         ]);
 
         ajouterMessageSucces('Menu ajouté avec succès !');
@@ -131,9 +133,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <label class="form-label">Titre du menu *</label>
                             <input type="text" class="form-control" name="titre" required>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-3 mb-3">
                             <label class="form-label">Prix en euros *</label>
                             <input type="number" class="form-control" name="prix" step="0.01" required>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Personnes min *</label>
+                            <input type="number" class="form-control" name="nb_personnes_min" value="1" min="1" required>
                         </div>
                     </div>
 

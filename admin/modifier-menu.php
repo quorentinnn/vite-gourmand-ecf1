@@ -27,7 +27,7 @@ if(!isset($_GET['id'])) {
 $menu_id = $_GET['id'];
 
 // Récupérer les données actuelles du menu
-$requete_menu = "SELECT id, titre, description, prix, image, theme_id, regime_id
+$requete_menu = "SELECT id, titre, description, prix, image, theme_id, regime_id, nb_personnes_min
                  FROM menus
                  WHERE id = :id";
 $preparation_menu = $pdo->prepare($requete_menu);
@@ -84,6 +84,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $theme_id = $_POST['theme_id'];
     $regime_id = $_POST['regime_id'];
+    $nb_personnes_min = $_POST['nb_personnes_min'] ?? 1;
 
     if(empty($titre)) {
         $message_erreur = 'Le titre est obligatoire';
@@ -100,7 +101,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                         prix = :prix,
                         image = :image,
                         theme_id = :theme_id,
-                        regime_id = :regime_id
+                        regime_id = :regime_id,
+                        nb_personnes_min = :nb_personnes_min
                     WHERE id = :id";
         $preparation = $pdo->prepare($requete);
         $preparation->execute([
@@ -110,6 +112,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             'image' => $nom_image,
             'theme_id' => $theme_id,
             'regime_id' => $regime_id,
+            'nb_personnes_min' => $nb_personnes_min,
             'id' => $menu_id
         ]);
 
@@ -152,10 +155,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <input type="text" class="form-control" name="titre"
                                    value="<?php echo htmlspecialchars($menu['titre']); ?>" required>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-3 mb-3">
                             <label class="form-label">Prix en euros *</label>
                             <input type="number" class="form-control" name="prix"
                                    value="<?php echo $menu['prix']; ?>" step="0.01" required>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Personnes min *</label>
+                            <input type="number" class="form-control" name="nb_personnes_min"
+                                   value="<?php echo $menu['nb_personnes_min'] ?? 1; ?>" min="1" required>
                         </div>
                     </div>
 
