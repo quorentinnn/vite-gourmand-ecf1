@@ -70,12 +70,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $nom_fichier = $_FILES['image']['name'];
         $extension = pathinfo($nom_fichier, PATHINFO_EXTENSION);
         $nom_unique = uniqid() . '.' . $extension;
-        $dossier_upload = __DIR__ . '/../uploads/';
-
-        // Créer le dossier uploads s'il n'existe pas
-        if (!is_dir($dossier_upload)) {
-            mkdir($dossier_upload, 0777, true);
-        }
+        $dossier_upload = __DIR__ . '/../images/';
 
         $chemin_final = $dossier_upload . $nom_unique;
 
@@ -198,7 +193,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                     <div class="mb-3">
                         <label class="form-label">Image actuelle</label><br>
-                        <img src="/uploads/<?php echo htmlspecialchars($menu['image'] ?? ''); ?>"
+                        <img src="/images/<?php echo htmlspecialchars($menu['image'] ?? ''); ?>"
                              style="width: 150px; height: 100px; object-fit: cover; border-radius: 8px;"
                              alt="Image actuelle"
                              onerror="this.onerror=null; this.src='/images/preparation.jpg';">

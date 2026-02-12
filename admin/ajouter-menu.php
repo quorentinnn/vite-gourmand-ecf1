@@ -60,12 +60,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $nom_fichier = $_FILES['image']['name'];
         $extension = pathinfo($nom_fichier, PATHINFO_EXTENSION);
         $nom_unique = uniqid() . '.' . $extension;
-        $dossier_upload = __DIR__ . '/../uploads/';
-
-        // Créer le dossier uploads s'il n'existe pas
-        if (!is_dir($dossier_upload)) {
-            mkdir($dossier_upload, 0777, true);
-        }
+        $dossier_upload = __DIR__ . '/../images/';
 
         $chemin_final = $dossier_upload . $nom_unique;
 

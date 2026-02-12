@@ -185,7 +185,7 @@ $menus = $stmt->fetchAll();
                  <?php foreach ($menus as $menu) : ?>
                 <div class="menu-card">
                     <div class="menu-image">
-                 <img src="/uploads/<?php echo htmlspecialchars($menu['image'] ?? ''); ?>"
+                 <img src="/images/<?php echo htmlspecialchars($menu['image'] ?? ''); ?>"
                       alt="<?php echo htmlspecialchars($menu['titre']); ?>"
                       class="menu-image"
                       onerror="this.onerror=null; this.src='/images/preparation.jpg';">

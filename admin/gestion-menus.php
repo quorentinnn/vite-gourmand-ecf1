@@ -84,7 +84,7 @@ $tous_les_menus = $preparation->fetchAll();
                                 <tr>
                                     <td><?php echo $menu['id']; ?></td>
                                     <td>
-                                            <img src="/uploads/<?php echo htmlspecialchars($menu['image'] ?? ''); ?>"
+                                            <img src="/images/<?php echo htmlspecialchars($menu['image'] ?? ''); ?>"
                                                  style="width: 80px; height: 60px; object-fit: cover; border-radius: 5px;"
                                                  onerror="this.onerror=null; this.src='/images/preparation.jpg';">
                                     </td>
