@@ -11,7 +11,7 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #8B1538;">        <div class="container-fluid">
-            <a class="navbar-brand text-white" href="index.php">
+            <a class="navbar-brand text-white" href="/index.php">
                 <span class="Vite">Vite</span><span class="Gourmand">&Gourmand</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Menu">
@@ -21,13 +21,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="index.php">Accueil</a>
+                        <a class="nav-link text-white" href="/index.php">Accueil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="menus.php">Menu</a>
+                        <a class="nav-link text-white" href="/menus.php">Menu</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="contact.php">Contact</a>
+                        <a class="nav-link text-white" href="/contact.php">Contact</a>
                     </li>
 
                     
@@ -57,20 +57,20 @@
                         // Si client
                         if($_SESSION['user_role'] == 'client' || $_SESSION['user_role'] == 'utilisateur') {
                             echo '<li class="nav-item">
-                                    <a class="nav-link text-white" href="mon-compte.php">Mon Compte</a>
+                                    <a class="nav-link text-white" href="/mon-compte.php">Mon Compte</a>
                                   </li>';
                         }
-                        
+
                         // Déconnexion pour tous
                         echo '<li class="nav-item">
-                                <a class="nav-link btn btn-outline-light" href="deconnexion.php">Déconnexion</a>
+                                <a class="nav-link btn btn-outline-light" href="/deconnexion.php">Déconnexion</a>
                               </li>';
-                        
+
                     } else {
-                        
+
                         // Pas connecté
                         echo '<li class="nav-item">
-                                <a class="nav-link btn btn-outline-light" href="connexion.php">Connexion</a>
+                                <a class="nav-link btn btn-outline-light" href="/connexion.php">Connexion</a>
                               </li>';
                     }
                     ?>
