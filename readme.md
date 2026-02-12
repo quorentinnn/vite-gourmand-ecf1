@@ -153,15 +153,13 @@ http://localhost/TEST_ECF/public/index.php
 
 ### Administrateur
 - **Email** : admin@vitegourmand.fr
-- **Mot de passe** : Admin123!
+- **Mot de passe** : Admin12345
 
 ### Employé
-- **Email** : employe@vitegourmand.fr
-- **Mot de passe** : Employe123!
+- **Email** : julie@vite-gourmand.fr
+- **Mot de passe** : Employe12345
 
-### Client
-- **Email** : client@test.fr
-- **Mot de passe** : Client123!
+
 
 ---
 
@@ -247,14 +245,6 @@ http://localhost/TEST_ECF/public/index.php
 - Le client peut annuler tant que le statut = "en_attente"
 - L'employé doit contacter le client avant d'annuler une commande
 
-### Prix
-- Prix de base du menu
-- Réduction de 10% si commande ≥ 5 personnes au-dessus du minimum
-- Frais de livraison : 5€ fixe (Bordeaux) + 0,59€/km (hors Bordeaux)
-
-### Matériel
-- Si matériel prêté : délai de retour 10 jours
-- Pénalité de 600€ si non retourné
 
 ### Avis
 - Un avis ne peut être laissé que si commande = "terminée"
@@ -262,9 +252,6 @@ http://localhost/TEST_ECF/public/index.php
 
 ---
 
-## 🐛 Problèmes connus
-
-Aucun problème majeur identifié à ce jour.
 
 ---
 

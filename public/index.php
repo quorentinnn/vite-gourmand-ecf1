@@ -59,13 +59,13 @@ $tous_les_avis = $preparation_avis->fetchAll();
         <h2 class="title-vedettes">Nos Menus Vedettes</h2>
         <div class="vedettes-container">
             <a href="menus-detail.php?id=3" class="vedette-card">
-                <img src="../images/poulet.webp" alt="Menu festif" class="vedette-image">
+                <img src="../images/chilli.jpg" alt="Menu festif" class="vedette-image">
                 <div class="vedette-overlay">
                     <span class="vedette-text">Découvrir nos menus</span>
                 </div>
             </a>
             <a href="menus-detail.php?id=8" class="vedette-card">
-                <img src="../images/salade.jpg" alt="Menu spécial" class="vedette-image">
+                <img src="../images/Quiche.jpg" alt="Menu spécial" class="vedette-image">
                 <div class="vedette-overlay">
                     <span class="vedette-text">Découvrir nos menus</span>
                 </div>
