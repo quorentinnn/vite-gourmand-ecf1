@@ -84,12 +84,9 @@ $tous_les_menus = $preparation->fetchAll();
                                 <tr>
                                     <td><?php echo $menu['id']; ?></td>
                                     <td>
-                                        <?php if($menu['image']): ?>
-                                            <img src="../uploads/<?php echo htmlspecialchars($menu['image']); ?>"
-                                                 style="width: 80px; height: 60px; object-fit: cover; border-radius: 5px;">
-                                        <?php else: ?>
-                                            <span class="text-muted">Pas d'image</span>
-                                        <?php endif; ?>
+                                            <img src="/uploads/<?php echo htmlspecialchars($menu['image'] ?? ''); ?>"
+                                                 style="width: 80px; height: 60px; object-fit: cover; border-radius: 5px;"
+                                                 onerror="this.onerror=null; this.src='/images/preparation.jpg';">
                                     </td>
                                     <td><?php echo htmlspecialchars($menu['titre']); ?></td>
                                     <td><strong><?php echo $menu['prix']; ?> &euro;</strong></td>

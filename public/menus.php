@@ -185,13 +185,10 @@ $menus = $stmt->fetchAll();
                  <?php foreach ($menus as $menu) : ?>
                 <div class="menu-card">
                     <div class="menu-image">
-                <?php if($menu['image']): ?>
-                 <img src="/uploads/<?php echo htmlspecialchars($menu['image']); ?>" alt="<?php echo htmlspecialchars($menu['titre']); ?>" class="menu-image">
-                <?php else: ?>
-                 <div class="menu-image-placeholder">
-                 <span>photo</span>
-            </div>
-            <?php endif; ?>
+                 <img src="/uploads/<?php echo htmlspecialchars($menu['image'] ?? ''); ?>"
+                      alt="<?php echo htmlspecialchars($menu['titre']); ?>"
+                      class="menu-image"
+                      onerror="this.onerror=null; this.src='/images/preparation.jpg';">
              </div>
                     <div class="menu-content">
                         <h3 class="menu-name"><?php echo htmlspecialchars($menu['titre']); ?></h3>

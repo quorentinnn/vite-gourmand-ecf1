@@ -192,13 +192,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                     <div class="mb-3">
                         <label class="form-label">Image actuelle</label><br>
-                        <?php if($menu['image'] && file_exists(__DIR__ . "/../uploads/" . $menu['image'])): ?>
-                            <img src="../uploads/<?php echo htmlspecialchars($menu['image']); ?>"
-                                 style="width: 150px; height: 100px; object-fit: cover; border-radius: 8px;"
-                                 alt="Image actuelle">
-                        <?php else: ?>
-                            <p class="text-muted">Aucune image</p>
-                        <?php endif; ?>
+                        <img src="/uploads/<?php echo htmlspecialchars($menu['image'] ?? ''); ?>"
+                             style="width: 150px; height: 100px; object-fit: cover; border-radius: 8px;"
+                             alt="Image actuelle"
+                             onerror="this.onerror=null; this.src='/images/preparation.jpg';">
                     </div>
 
                     <div class="mb-3">

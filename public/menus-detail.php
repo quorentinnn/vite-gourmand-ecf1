@@ -57,13 +57,9 @@ foreach($plats as $plat) {
                 <!-- IMAGE GAUCHE -->
                <!-- IMAGE GAUCHE -->
 <div class="menu-detail-image">
-    <?php if($menu['image']): ?>
-        <img src="/uploads/<?php echo htmlspecialchars($menu['image']); ?>" alt="<?php echo htmlspecialchars($menu['titre']); ?>">
-    <?php else: ?>
-        <div class="menu-image-placeholder">
-            <span>photo</span>
-        </div>
-    <?php endif; ?>
+    <img src="/uploads/<?php echo htmlspecialchars($menu['image'] ?? ''); ?>"
+         alt="<?php echo htmlspecialchars($menu['titre']); ?>"
+         onerror="this.onerror=null; this.src='/images/preparation.jpg';">
 </div>
 
                 <!-- INFOS DROITE -->
