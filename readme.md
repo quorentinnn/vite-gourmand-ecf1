@@ -33,7 +33,7 @@ Le site a 4 types d'utilisateurs :
 
 ## Liens du projet
 
-- Site en ligne : https://vite-gourmand.up.railway.app
+- Site en ligne : https://test-ecf-production.up.railway.app/
 - Repository GitHub : https://github.com/quorentinnn/vite-gourmand-ecf1
 - Maquettes Figma : https://www.figma.com/design/mG5GQQRyvTBPqQ65pfRajh/Projet-ECF-Traiteur-commande-en-ligne
 - Gestion de projet Notion : https://www.notion.so/Liste-des-t-ches-du-projet-2cac16d409b4807b90bec21c45d2fe9c
