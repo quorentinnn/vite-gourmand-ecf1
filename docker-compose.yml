@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+      - mongodb
+    environment:
+      MYSQLHOST: mysql
+      MYSQLDATABASE: ecf_gourmand
+      MYSQLUSER: root
+      MYSQLPASSWORD: root
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ecf_gourmand
+    volumes:
+      - ./database/ecf_gourmand.sql:/docker-entrypoint-initdb.d/ecf_gourmand.sql
+
+  mongodb:
+    image: mongo:6.0
+    ports:
+      - "27017:27017"
