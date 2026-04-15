@@ -204,4 +204,44 @@ $menus = $stmt->fetchAll();
         </div>
     </section>
 
+    <script>
+document.querySelector('.filtres-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    var formData = new FormData(this);
+    var params = new URLSearchParams(formData).toString();
+
+    fetch('api_menus.php?' + params)
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(menus) {
+            var grid = document.querySelector('.menus-grid');
+            grid.innerHTML = '';
+
+            if(menus.length === 0) {
+                grid.innerHTML = '<p>Aucun menu trouvé.</p>';
+                return;
+            }
+
+            menus.forEach(function(menu) {
+                var image = menu.image ? menu.image : 'preparation.jpg';
+                var carte = '<div class="menu-card">';
+                carte += '<div class="menu-image"><img src="/images/' + image + '" alt="' + menu.titre + '" onerror="this.src=\'/images/preparation.jpg\'"></div>';
+                carte += '<div class="menu-content">';
+                carte += '<h3 class="menu-name">' + menu.titre + '</h3>';
+                carte += '<p class="menu-description">' + menu.description + '</p>';
+                carte += '<p class="menu-min-personnes">' + menu.nb_personnes_min + ' personnes min</p>';
+                carte += '<p class="menu-prix">' + menu.prix + 'e / ' + menu.nb_personnes_min + ' personne</p>';
+                carte += '<a href="menus-detail.php?id=' + menu.id + '" class="btn-detail">voir le détail</a>';
+                carte += '</div></div>';
+                grid.innerHTML += carte;
+            });
+        })
+        .catch(function(erreur) {
+            console.log('Erreur fetch : ' + erreur);
+        });
+});
+</script>
+
 <?php include '../includes/footer.php'; ?>
