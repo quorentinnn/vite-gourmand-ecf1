@@ -104,7 +104,7 @@ $tous_les_avis = $preparation_avis->fetchAll();
     </div>
 </section>
 <script>
-fetch('../api_avis.php')
+fetch('api_avis.php')
   .then(function(response) {
     return response.json();
   })
