@@ -95,44 +95,44 @@ $tous_les_avis = $preparation_avis->fetchAll();
         </div>
 </section>
 
-    <!-- Section des avis clients -->
+<!-- Section des avis clients -->
 <section class="container-avis">
     <h2 class="text-center mb-4">Ils ont testé nos menus !</h2>
     
-    <div class="row">
-        <?php foreach($tous_les_avis as $avis): ?>
-        <div class="col-md-4 mb-3">
-            <div class="card">
-                <div class="card-body">
-                    <!-- Étoiles -->
-                    <div class="mb-2">
-                        <?php
-                        // Afficher les étoiles selon la note
-                        $note = $avis['note'];
-                        for($i = 1; $i <= 5; $i++) {
-                            if($i <= $note) {
-                                echo '⭐'; // Étoile pleine
-                            } else {
-                                echo '☆'; // Étoile vide
-                            }
-                        }
-                        ?>
-                        <strong>(<?php echo $note; ?>/5)</strong>
-                    </div>
-                    
-                    <!-- Commentaire -->
-                    <p class="card-text">"<?php echo $avis['commentaire']; ?>"</p>
-                    
-                    <!-- Nom du client -->
-                    <p class="text-muted mb-0">
-                        <small>- <?php echo $avis['prenom']; ?> <?php echo substr($avis['nom'], 0, 1); ?>.</small>
-                    </p>
-                </div>
-            </div>
-        </div>
-        <?php endforeach; ?>
+    <div class="row" id="avis-container">
+        <!-- Les avis sont chargés dynamiquement par fetch -->
     </div>
 </section>
+<script>
+fetch('../api_avis.php')
+  .then(function(response) {
+    return response.json();
+  })
+  .then(function(avis) {
+    var container = document.getElementById('avis-container');
+    
+    avis.forEach(function(unAvis) {
+      var etoiles = '';
+      for (var i = 1; i <= 5; i++) {
+        if (i <= unAvis.note) {
+          etoiles += '⭐';
+        } else {
+          etoiles += '☆';
+        }
+      }
+      
+      container.innerHTML += '<div class="col-md-4 mb-3">' +
+        '<div class="card">' +
+          '<div class="card-body">' +
+            '<div class="mb-2">' + etoiles + ' <strong>(' + unAvis.note + '/5)</strong></div>' +
+            '<p class="card-text">"' + unAvis.commentaire + '"</p>' +
+            '<p class="text-muted mb-0"><small>- ' + unAvis.nom + '</small></p>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    });
+  });
+</script>
 
 <!-- Footer -->
  <?php include '../includes/footer.php'; ?>
