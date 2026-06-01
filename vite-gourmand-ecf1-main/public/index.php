@@ -106,11 +106,19 @@ $tous_les_avis = $preparation_avis->fetchAll();
 <script>
 fetch('api_avis.php')
   .then(function(response) {
+    if (!response.ok) {
+      throw new Error('Erreur HTTP : ' + response.status);
+    }
     return response.json();
   })
   .then(function(avis) {
     var container = document.getElementById('avis-container');
-    
+
+    if (avis.length === 0) {
+      container.innerHTML = '<p class="text-muted text-center">Aucun avis pour le moment.</p>';
+      return;
+    }
+
     avis.forEach(function(unAvis) {
       var etoiles = '';
       for (var i = 1; i <= 5; i++) {
@@ -120,17 +128,20 @@ fetch('api_avis.php')
           etoiles += '☆';
         }
       }
-      
+
       container.innerHTML += '<div class="col-md-4 mb-3">' +
         '<div class="card">' +
           '<div class="card-body">' +
             '<div class="mb-2">' + etoiles + ' <strong>(' + unAvis.note + '/5)</strong></div>' +
             '<p class="card-text">"' + unAvis.commentaire + '"</p>' +
-            '<p class="text-muted mb-0"><small>- ' + unAvis.nom + '</small></p>' +
+            '<p class="text-muted mb-0"><small>- ' + unAvis.prenom + ' ' + unAvis.nom + '</small></p>' +
           '</div>' +
         '</div>' +
       '</div>';
     });
+  })
+  .catch(function(erreur) {
+    console.error('Impossible de charger les avis :', erreur);
   });
 </script>
 
