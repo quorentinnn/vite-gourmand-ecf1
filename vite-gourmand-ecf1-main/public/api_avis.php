@@ -1,8 +1,8 @@
 <?php
 require_once '../includes/db.php';
 
-$requete = "SELECT avis.note, 
-                   avis.commentaire, 
+$requete = "SELECT avis.note,
+                   avis.commentaire,
                    utilisateurs.nom,
                    utilisateurs.prenom
             FROM avis
