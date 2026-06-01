@@ -1,24 +1,24 @@
-# Vite & Gourmand - Site de Traiteur
+ww# Vite & Gourmand - Site de Traiteur
 
 Application web pour un traiteur à Bordeaux. Projet réalisé pour l'ECF Développeur Web et Web Mobile.
 
-## 🚀 Démo
+##  Démo
 
 - **Site en ligne** : https://test-ecf-production.up.railway.app
 - **GitHub** : https://github.com/quorentinnn/vite-gourmand-ecf1
 
-## 🔐 Comptes de test
+##  Comptes de test
 
 **Admin** : admin@vitegourmand.fr / Admin12345  
 **Employé** : julie@vite-gourmand.fr / Employe12345
 
-## 📋 Prérequis
+##  Prérequis
 
 - XAMPP avec PHP 8.0+
 - MongoDB
 - Navigateur web
 
-## 📥 Installation
+##  Installation
 
 ### 1. Cloner le projet
 ```bash
@@ -46,13 +46,13 @@ mongod
 http://localhost/vite-gourmand-ecf1/public/
 ```
 
-## 🛠️ Technologies
+## Technologies
 
 **Backend :** PHP 8.2, MySQL, MongoDB  
 **Frontend :** HTML, CSS, Bootstrap 5, JavaScript  
 **Outils :** XAMPP, Git, Railway
 
-## 📁 Structure
+## Structure
 ```
 ├── admin/          # Pages administrateur
 ├── employe/        # Pages employé
@@ -64,7 +64,7 @@ http://localhost/vite-gourmand-ecf1/public/
 └── README.md
 ```
 
-## ✨ Fonctionnalités
+##  Fonctionnalités
 
 **Visiteur :**
 - Voir les menus
@@ -86,14 +86,14 @@ http://localhost/vite-gourmand-ecf1/public/
 - Créer des comptes employés
 - Voir les statistiques (Chart.js + MongoDB)
 
-## 🔒 Sécurité
+##  Sécurité
 
 - Mots de passe hashés (bcrypt)
 - Requêtes préparées PDO
 - Protection XSS avec htmlspecialchars()
 - Sessions sécurisées
 
-## 👤 Auteur
+## Auteur
 
-Quentin - ECF Développeur Web et Web Mobile  
+Quorentin - ECF Développeur Web et Web Mobile  
 Février 2026
